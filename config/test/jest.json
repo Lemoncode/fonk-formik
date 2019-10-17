@@ -1,0 +1,6 @@
+{
+  "rootDir": "../../",
+  "preset": "ts-jest",
+  "restoreMocks": true,
+  "modulePathIgnorePatterns": ["<rootDir>/dist"]
+}
