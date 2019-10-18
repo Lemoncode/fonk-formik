@@ -6,7 +6,6 @@ import {
   RecordValidationFunctionAsync,
   RecordValidationFunctionSync,
 } from '@lemoncode/fonk';
-import { doesNotReject } from 'assert';
 
 describe('FormValidation', () => {
   it(`spec #1: should return an instance of FormValidation
