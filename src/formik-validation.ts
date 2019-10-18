@@ -8,8 +8,7 @@ import {
 } from '@lemoncode/fonk';
 
 /*
-// TODO
-Formik expects a validator to return ...
+Formik expects a validation to be thrown if there are errors
  */
 export class FormikValidation {
   formValidation: FormValidationExtended.FormValidation = null;
@@ -23,18 +22,35 @@ export class FormikValidation {
     value: any,
     values?: any
   ): Promise<ValidationResult> {
-    // TODO
-    return null;
+    return this.formValidation
+      .validateField(fieldId, value, values)
+      .then(result => {
+        if (!result.succeeded) {
+          throw result;
+        }
+
+        return null;
+      });
   }
 
   public validateRecord(values: any): Promise<RecordValidationResult> {
-    // TODO
-    return null;
+    return this.formValidation.validateRecord(values).then(result => {
+      if (!result.succeeded) {
+        throw result;
+      }
+
+      return null;
+    });
   }
 
   public validateForm(values: any): Promise<FormValidationResult> {
-    // TODO
-    return null;
+    return this.formValidation.validateForm(values).then(result => {
+      if (!result.succeeded) {
+        throw result;
+      }
+
+      return null;
+    });
   }
 }
 

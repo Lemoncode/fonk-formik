@@ -1,7 +1,4 @@
-import {
-  createFormikValidation,
-  FormikValidation,
-} from './formik-validation';
+import { createFormikValidation, FormikValidation } from './formik-validation';
 import {
   ValidationSchema,
   ValidationResult,
@@ -44,16 +41,15 @@ describe('FormValidation', () => {
 
       // Act
       const formValidation = createFormikValidation(validationSchema);
-      const result = formValidation.validateField('username', 'whatever');
-
-      // Assert
-      result.then(validationResult => {
-        expect(validationResult.succeeded).toBe(false);
-        expect(validationResult.type).toBe('MY_TYPE');
-        expect(validationResult.message).toBe('mymessage');
-        expect(mockValidationFn).toHaveBeenCalled();
-        done();
-      });
+      formValidation
+        .validateField('username', 'whatever')
+        .catch(validationResult => {
+          expect(validationResult.succeeded).toBe(false);
+          expect(validationResult.type).toBe('MY_TYPE');
+          expect(validationResult.message).toBe('mymessage');
+          expect(mockValidationFn).toHaveBeenCalled();
+          done();
+        });
     });
 
     it(`spec #2: should execute a field validation (async and using function in schema) and fail when
@@ -75,16 +71,16 @@ describe('FormValidation', () => {
 
       // Act
       const formValidation = createFormikValidation(validationSchema);
-      const result = formValidation.validateField('username', 'whatever');
-
-      // Assert
-      result.then(validationResult => {
-        expect(validationResult.succeeded).toBe(false);
-        expect(validationResult.type).toBe('MY_TYPE');
-        expect(validationResult.message).toBe('mymessage');
-        expect(mockValidationFn).toHaveBeenCalled();
-        done();
-      });
+      formValidation
+        .validateField('username', 'whatever')
+        .catch(validationResult => {
+          // Assert
+          expect(validationResult.succeeded).toBe(false);
+          expect(validationResult.type).toBe('MY_TYPE');
+          expect(validationResult.message).toBe('mymessage');
+          expect(mockValidationFn).toHaveBeenCalled();
+          done();
+        });
     });
 
     it(`spec #3: should execute a field validation (defined as FullValidator, sync function in schema) and fail when
@@ -113,16 +109,16 @@ describe('FormValidation', () => {
 
       // Act
       const formValidation = createFormikValidation(validationSchema);
-      const result = formValidation.validateField('username', 'whatever');
-
-      // Assert
-      result.then(validationResult => {
-        expect(validationResult.succeeded).toBe(false);
-        expect(validationResult.type).toBe('MY_TYPE');
-        expect(validationResult.message).toBe('myoverriddenmessage');
-        expect(mockValidationFn).toHaveBeenCalled();
-        done();
-      });
+      const result = formValidation
+        .validateField('username', 'whatever')
+        .catch(validationResult => {
+          // Assert
+          expect(validationResult.succeeded).toBe(false);
+          expect(validationResult.type).toBe('MY_TYPE');
+          expect(validationResult.message).toBe('myoverriddenmessage');
+          expect(mockValidationFn).toHaveBeenCalled();
+          done();
+        });
     });
 
     it(`spec #4: should execute a field validation (defined as FullValidator, async function in schema) and fail when
@@ -152,16 +148,16 @@ describe('FormValidation', () => {
 
       // Act
       const formValidation = createFormikValidation(validationSchema);
-      const result = formValidation.validateField('username', 'whatever');
-
-      // Assert
-      result.then(validationResult => {
-        expect(validationResult.succeeded).toBe(false);
-        expect(validationResult.type).toBe('MY_TYPE');
-        expect(validationResult.message).toBe('myoverriddenmessage');
-        expect(mockValidationFn).toHaveBeenCalled();
-        done();
-      });
+      const result = formValidation
+        .validateField('username', 'whatever')
+        .catch(validationResult => {
+          // Assert
+          expect(validationResult.succeeded).toBe(false);
+          expect(validationResult.type).toBe('MY_TYPE');
+          expect(validationResult.message).toBe('myoverriddenmessage');
+          expect(mockValidationFn).toHaveBeenCalled();
+          done();
+        });
     });
 
     it(`spec #5: should execute a field validation (defined as FullValidator, async function in schema) and fail when
@@ -191,22 +187,18 @@ describe('FormValidation', () => {
 
       // Act
       const formValidation = createFormikValidation(validationSchema);
-      const result = formValidation.validateField(
-        'username',
-        'whatever',
-        'test-values'
-      );
-
-      // Assert
-      result.then(validationResult => {
-        expect(validationResult.succeeded).toBe(false);
-        expect(validationResult.type).toBe('MY_TYPE');
-        expect(validationResult.message).toBe(
-          'whatever myoverriddenmessage custom-arg test-values'
-        );
-        expect(mockValidationFn).toHaveBeenCalled();
-        done();
-      });
+      const result = formValidation
+        .validateField('username', 'whatever', 'test-values')
+        .catch(validationResult => {
+          // Assert
+          expect(validationResult.succeeded).toBe(false);
+          expect(validationResult.type).toBe('MY_TYPE');
+          expect(validationResult.message).toBe(
+            'whatever myoverriddenmessage custom-arg test-values'
+          );
+          expect(mockValidationFn).toHaveBeenCalled();
+          done();
+        });
     });
 
     it(`spec #6:should execute a field validation (sync and using full schema) passing
@@ -244,16 +236,18 @@ describe('FormValidation', () => {
 
       // Act
       const formValidation = createFormikValidation(validationSchema);
-      const result = formValidation.validateField('username', 'whatever');
-
-      // Assert
-      result.then(validationResult => {
-        expect(validationResult.succeeded).toBe(false);
-        expect(validationResult.type).toBe('MY_TYPE');
-        expect(validationResult.message).toBe('received custom args fail true');
-        expect(validator).toHaveBeenCalled();
-        done();
-      });
+      const result = formValidation
+        .validateField('username', 'whatever')
+        .catch(validationResult => {
+          // Assert
+          expect(validationResult.succeeded).toBe(false);
+          expect(validationResult.type).toBe('MY_TYPE');
+          expect(validationResult.message).toBe(
+            'received custom args fail true'
+          );
+          expect(validator).toHaveBeenCalled();
+          done();
+        });
     });
 
     it(`spec #7:should execute a field validation (sync and using full schema) passing
@@ -291,12 +285,9 @@ describe('FormValidation', () => {
 
       // Act
       const formValidation = createFormikValidation(validationSchema);
-      const result = formValidation.validateField('username', 'whatever');
-
-      // Assert
-      result.then(validationResult => {
-        expect(validationResult).toBe(null);
-        expect(validator).toHaveBeenCalled();
+      formValidation.validateField('username', 'whatever').then(result => {
+        // Assert
+        expect(result).toBeNull();
         done();
       });
     });
@@ -360,16 +351,16 @@ when adding two validators to a given field and first fails
 
       // Act
       const formValidation = createFormikValidation(validationSchema);
-      const result = formValidation.validateField('username', 'whatever');
-
-      // Assert
-      result.then(validationResult => {
-        expect(validationResult.succeeded).toBe(false);
-        expect(validationResult.type).toBe('MY_VALIDATOR_A');
-        expect(mockValidationFn1).toHaveBeenCalled();
-        expect(mockValidationFn2).not.toHaveBeenCalled();
-        done();
-      });
+      const result = formValidation
+        .validateField('username', 'whatever')
+        .catch(validationResult => {
+          // Assert
+          expect(validationResult.succeeded).toBe(false);
+          expect(validationResult.type).toBe('MY_VALIDATOR_A');
+          expect(mockValidationFn1).toHaveBeenCalled();
+          expect(mockValidationFn2).not.toHaveBeenCalled();
+          done();
+        });
     });
 
     it(`spec #10:should execute two validations for a given field and failed
@@ -396,16 +387,16 @@ when adding two validators to a given field and second fails
 
       // Act
       const formValidation = createFormikValidation(validationSchema);
-      const result = formValidation.validateField('username', 'whatever');
-
-      // Assert
-      result.then(validationResult => {
-        expect(validationResult.succeeded).toBe(false);
-        expect(validationResult.type).toBe('MY_VALIDATOR_B');
-        expect(mockValidationFn1).toHaveBeenCalled();
-        expect(mockValidationFn2).toHaveBeenCalled();
-        done();
-      });
+      const result = formValidation
+        .validateField('username', 'whatever')
+        .catch(validationResult => {
+          // Assert
+          expect(validationResult.succeeded).toBe(false);
+          expect(validationResult.type).toBe('MY_VALIDATOR_B');
+          expect(mockValidationFn1).toHaveBeenCalled();
+          expect(mockValidationFn2).toHaveBeenCalled();
+          done();
+        });
     });
 
     it(`spec #11:should execute first validation for a given field and failed
@@ -432,16 +423,16 @@ when adding two validators to a given field fails and second fails
 
       // Act
       const formValidation = createFormikValidation(validationSchema);
-      const result = formValidation.validateField('username', 'whatever');
-
-      // Assert
-      result.then(validationResult => {
-        expect(validationResult.succeeded).toBe(false);
-        expect(validationResult.type).toBe('MY_VALIDATOR_A');
-        expect(mockValidationFn1).toHaveBeenCalled();
-        expect(mockValidationFn2).not.toHaveBeenCalled();
-        done();
-      });
+      const result = formValidation
+        .validateField('username', 'whatever')
+        .catch(validationResult => {
+          // Assert
+          expect(validationResult.succeeded).toBe(false);
+          expect(validationResult.type).toBe('MY_VALIDATOR_A');
+          expect(mockValidationFn1).toHaveBeenCalled();
+          expect(mockValidationFn2).not.toHaveBeenCalled();
+          done();
+        });
     });
 
     it(`spec #12:should execute validation for a given field and failed
@@ -462,15 +453,15 @@ when adding one validator to a given nested field
 
       // Act
       const formValidation = createFormikValidation(validationSchema);
-      const result = formValidation.validateField('nested.field', 'whatever');
-
-      // Assert
-      result.then(validationResult => {
-        expect(validationResult.succeeded).toBe(false);
-        expect(validationResult.type).toBe('MY_VALIDATOR_A');
-        expect(mockValidationFn).toHaveBeenCalled();
-        done();
-      });
+      const result = formValidation
+        .validateField('nested.field', 'whatever')
+        .catch(validationResult => {
+          // Assert
+          expect(validationResult.succeeded).toBe(false);
+          expect(validationResult.type).toBe('MY_VALIDATOR_A');
+          expect(mockValidationFn).toHaveBeenCalled();
+          done();
+        });
     });
 
     it(`spec #13:should execute validation for a given field and failed
@@ -491,18 +482,15 @@ when adding one validator to a given nested field with kebap case
 
       // Act
       const formValidation = createFormikValidation(validationSchema);
-      const result = formValidation.validateField(
-        'this-is-a-nested.field',
-        'whatever'
-      );
-
-      // Assert
-      result.then(validationResult => {
-        expect(validationResult.succeeded).toBe(false);
-        expect(validationResult.type).toBe('MY_VALIDATOR_A');
-        expect(mockValidationFn).toHaveBeenCalled();
-        done();
-      });
+      const result = formValidation
+        .validateField('this-is-a-nested.field', 'whatever')
+        .catch(validationResult => {
+          // Assert
+          expect(validationResult.succeeded).toBe(false);
+          expect(validationResult.type).toBe('MY_VALIDATOR_A');
+          expect(mockValidationFn).toHaveBeenCalled();
+          done();
+        });
     });
   });
 
@@ -529,21 +517,21 @@ when adding one validator to a given nested field with kebap case
 
       // Act
       const formValidation = createFormikValidation(validationSchema);
-      const result = formValidation.validateRecord(values);
-
-      // Assert
-      result.then(validationResult => {
-        expect(mockValidationFn).toHaveBeenCalled();
-        expect(validationResult.succeeded).toBeFalsy();
-        expect(validationResult.recordErrors).toEqual({
-          MY_RECORD_VALIDATION: {
-            type: '',
-            succeeded: false,
-            message: 'mymessageA',
-          },
+      const result = formValidation
+        .validateRecord(values)
+        .catch(validationResult => {
+          // Assert
+          expect(mockValidationFn).toHaveBeenCalled();
+          expect(validationResult.succeeded).toBeFalsy();
+          expect(validationResult.recordErrors).toEqual({
+            MY_RECORD_VALIDATION: {
+              type: '',
+              succeeded: false,
+              message: 'mymessageA',
+            },
+          });
+          done();
         });
-        done();
-      });
     });
 
     it(`#Spec 2: should failed form validation
@@ -568,21 +556,21 @@ when adding one validator to a given nested field with kebap case
 
       // Act
       const formValidation = createFormikValidation(validationSchema);
-      const result = formValidation.validateRecord(values);
-
-      // Assert
-      result.then(validationResult => {
-        expect(mockValidationFn).toHaveBeenCalled();
-        expect(validationResult.succeeded).toBeFalsy();
-        expect(validationResult.recordErrors).toEqual({
-          MY_RECORD_VALIDATION: {
-            type: '',
-            succeeded: false,
-            message: 'mymessageA',
-          },
+      const result = formValidation
+        .validateRecord(values)
+        .catch(validationResult => {
+          // Assert
+          expect(mockValidationFn).toHaveBeenCalled();
+          expect(validationResult.succeeded).toBeFalsy();
+          expect(validationResult.recordErrors).toEqual({
+            MY_RECORD_VALIDATION: {
+              type: '',
+              succeeded: false,
+              message: 'mymessageA',
+            },
+          });
+          done();
         });
-        done();
-      });
     });
 
     it(`#Spec 3: should failed form validation
@@ -610,21 +598,21 @@ when adding one validator to a given nested field with kebap case
 
       // Act
       const formValidation = createFormikValidation(validationSchema);
-      const result = formValidation.validateRecord(values);
-
-      // Assert
-      result.then(validationResult => {
-        expect(validationFn).toHaveBeenCalled();
-        expect(validationResult.succeeded).toBeFalsy();
-        expect(validationResult.recordErrors).toEqual({
-          MY_RECORD_VALIDATION: {
-            type: '',
-            succeeded: false,
-            message: 'My custom message',
-          },
+      const result = formValidation
+        .validateRecord(values)
+        .catch(validationResult => {
+          // Assert
+          expect(validationFn).toHaveBeenCalled();
+          expect(validationResult.succeeded).toBeFalsy();
+          expect(validationResult.recordErrors).toEqual({
+            MY_RECORD_VALIDATION: {
+              type: '',
+              succeeded: false,
+              message: 'My custom message',
+            },
+          });
+          done();
         });
-        done();
-      });
     });
 
     it(`#Spec 4: should failed form validation
@@ -651,21 +639,21 @@ when adding one validator to a given nested field with kebap case
 
       // Act
       const formValidation = createFormikValidation(validationSchema);
-      const result = formValidation.validateRecord(values);
-
-      // Assert
-      result.then(validationResult => {
-        expect(validationFn).toHaveBeenCalled();
-        expect(validationResult.succeeded).toBeFalsy();
-        expect(validationResult.recordErrors).toEqual({
-          MY_RECORD_VALIDATION: {
-            type: '',
-            succeeded: false,
-            message: 'My custom message',
-          },
+      const result = formValidation
+        .validateRecord(values)
+        .catch(validationResult => {
+          // Assert
+          expect(validationFn).toHaveBeenCalled();
+          expect(validationResult.succeeded).toBeFalsy();
+          expect(validationResult.recordErrors).toEqual({
+            MY_RECORD_VALIDATION: {
+              type: '',
+              succeeded: false,
+              message: 'My custom message',
+            },
+          });
+          done();
         });
-        done();
-      });
     });
 
     it(`#Spec 5: should failed form validation, and return back one validationResult on forms
@@ -698,22 +686,22 @@ when adding one validator to a given nested field with kebap case
 
       // Act
       const formValidation = createFormikValidation(validationSchema);
-      const result = formValidation.validateRecord(values);
-
-      // Assert
-      result.then(validationResult => {
-        expect(validationFn1).toHaveBeenCalled();
-        expect(validationFn2).not.toHaveBeenCalled();
-        expect(validationResult.succeeded).toBeFalsy();
-        expect(validationResult.recordErrors).toEqual({
-          MY_RECORD_VALIDATION: {
-            type: '',
-            succeeded: false,
-            message: 'mymessageA',
-          },
+      const result = formValidation
+        .validateRecord(values)
+        .catch(validationResult => {
+          // Assert
+          expect(validationFn1).toHaveBeenCalled();
+          expect(validationFn2).not.toHaveBeenCalled();
+          expect(validationResult.succeeded).toBeFalsy();
+          expect(validationResult.recordErrors).toEqual({
+            MY_RECORD_VALIDATION: {
+              type: '',
+              succeeded: false,
+              message: 'mymessageA',
+            },
+          });
+          done();
         });
-        done();
-      });
     });
 
     it(`#Spec 6: should failed form validation, and return back one validationResult on forms
@@ -746,22 +734,22 @@ when adding one validator to a given nested field with kebap case
 
       // Act
       const formValidation = createFormikValidation(validationSchema);
-      const result = formValidation.validateRecord(values);
-
-      // Assert
-      result.then(validationResult => {
-        expect(validationFn1).toHaveBeenCalled();
-        expect(validationFn2).toHaveBeenCalled();
-        expect(validationResult.succeeded).toBeFalsy();
-        expect(validationResult.recordErrors).toEqual({
-          MY_RECORD_VALIDATION: {
-            type: '',
-            succeeded: false,
-            message: 'mymessageB',
-          },
+      const result = formValidation
+        .validateRecord(values)
+        .catch(validationResult => {
+          // Assert
+          expect(validationFn1).toHaveBeenCalled();
+          expect(validationFn2).toHaveBeenCalled();
+          expect(validationResult.succeeded).toBeFalsy();
+          expect(validationResult.recordErrors).toEqual({
+            MY_RECORD_VALIDATION: {
+              type: '',
+              succeeded: false,
+              message: 'mymessageB',
+            },
+          });
+          done();
         });
-        done();
-      });
     });
 
     it(`#Spec 7: should failed form validation, and return back one validationResult on forms
@@ -794,22 +782,22 @@ when adding one validator to a given nested field with kebap case
 
       // Act
       const formValidation = createFormikValidation(validationSchema);
-      const result = formValidation.validateRecord(values);
-
-      // Assert
-      result.then(validationResult => {
-        expect(validationFn1).toHaveBeenCalled();
-        expect(validationFn2).not.toHaveBeenCalled();
-        expect(validationResult.succeeded).toBeFalsy();
-        expect(validationResult.recordErrors).toEqual({
-          MY_RECORD_VALIDATION: {
-            type: '',
-            succeeded: false,
-            message: 'mymessageA',
-          },
+      const result = formValidation
+        .validateRecord(values)
+        .catch(validationResult => {
+          // Assert
+          expect(validationFn1).toHaveBeenCalled();
+          expect(validationFn2).not.toHaveBeenCalled();
+          expect(validationResult.succeeded).toBeFalsy();
+          expect(validationResult.recordErrors).toEqual({
+            MY_RECORD_VALIDATION: {
+              type: '',
+              succeeded: false,
+              message: 'mymessageA',
+            },
+          });
+          done();
         });
-        done();
-      });
     });
 
     it(`#Spec 8: should succed form validation, and return back one validationResult on forms
@@ -842,15 +830,15 @@ when adding one validator to a given nested field with kebap case
 
       // Act
       const formValidation = createFormikValidation(validationSchema);
-      const result = formValidation.validateRecord(values);
-
-      // Assert
-      result.then(validationResult => {
-        expect(validationFn1).toHaveBeenCalled();
-        expect(validationFn2).toHaveBeenCalled();
-        expect(validationResult).toBe(null);
-        done();
-      });
+      const result = formValidation
+        .validateRecord(values)
+        .then(validationResult => {
+          // Assert
+          expect(validationFn1).toHaveBeenCalled();
+          expect(validationFn2).toHaveBeenCalled();
+          expect(validationResult).toBe(null);
+          done();
+        });
     });
 
     it(`#Spec 9: should fail form validation, and return back two validationResult on forms
@@ -884,27 +872,27 @@ when adding one validator to a given nested field with kebap case
 
       // Act
       const formValidation = createFormikValidation(validationSchema);
-      const result = formValidation.validateRecord(values);
-
-      // Assert
-      result.then(validationResult => {
-        expect(validationFn1).toHaveBeenCalled();
-        expect(validationFn2).toHaveBeenCalled();
-        expect(validationResult.succeeded).toBeFalsy();
-        expect(validationResult.recordErrors).toEqual({
-          MY_RECORD_VALIDATION1: {
-            type: '',
-            succeeded: false,
-            message: 'mymessageA',
-          },
-          MY_RECORD_VALIDATION2: {
-            type: '',
-            succeeded: false,
-            message: 'mymessageB',
-          },
+      const result = formValidation
+        .validateRecord(values)
+        .catch(validationResult => {
+          // Assert
+          expect(validationFn1).toHaveBeenCalled();
+          expect(validationFn2).toHaveBeenCalled();
+          expect(validationResult.succeeded).toBeFalsy();
+          expect(validationResult.recordErrors).toEqual({
+            MY_RECORD_VALIDATION1: {
+              type: '',
+              succeeded: false,
+              message: 'mymessageA',
+            },
+            MY_RECORD_VALIDATION2: {
+              type: '',
+              succeeded: false,
+              message: 'mymessageB',
+            },
+          });
+          done();
         });
-        done();
-      });
     });
   });
 
@@ -931,22 +919,22 @@ when adding one validator to a given nested field with kebap case
 
       // Act
       const formValidation = createFormikValidation(validationSchema);
-      const result = formValidation.validateForm(values);
-
-      // Assert
-      result.then(validationResult => {
-        expect(mockValidationFn).toHaveBeenCalled();
-        expect(validationResult.succeeded).toBeFalsy();
-        expect(validationResult.fieldErrors).toEqual({});
-        expect(validationResult.recordErrors).toEqual({
-          MY_RECORD_VALIDATION: {
-            type: '',
-            succeeded: false,
-            message: 'mymessageA',
-          },
+      const result = formValidation
+        .validateForm(values)
+        .catch(validationResult => {
+          // Assert
+          expect(mockValidationFn).toHaveBeenCalled();
+          expect(validationResult.succeeded).toBeFalsy();
+          expect(validationResult.fieldErrors).toEqual({});
+          expect(validationResult.recordErrors).toEqual({
+            MY_RECORD_VALIDATION: {
+              type: '',
+              succeeded: false,
+              message: 'mymessageA',
+            },
+          });
+          done();
         });
-        done();
-      });
     });
 
     it(`#Spec 2: should failed form validation
@@ -971,22 +959,22 @@ when adding one validator to a given nested field with kebap case
 
       // Act
       const formValidation = createFormikValidation(validationSchema);
-      const result = formValidation.validateForm(values);
-
-      // Assert
-      result.then(validationResult => {
-        expect(mockValidationFn).toHaveBeenCalled();
-        expect(validationResult.succeeded).toBeFalsy();
-        expect(validationResult.fieldErrors).toEqual({});
-        expect(validationResult.recordErrors).toEqual({
-          MY_RECORD_VALIDATION: {
-            type: '',
-            succeeded: false,
-            message: 'mymessageA',
-          },
+      const result = formValidation
+        .validateForm(values)
+        .catch(validationResult => {
+          // Assert
+          expect(mockValidationFn).toHaveBeenCalled();
+          expect(validationResult.succeeded).toBeFalsy();
+          expect(validationResult.fieldErrors).toEqual({});
+          expect(validationResult.recordErrors).toEqual({
+            MY_RECORD_VALIDATION: {
+              type: '',
+              succeeded: false,
+              message: 'mymessageA',
+            },
+          });
+          done();
         });
-        done();
-      });
     });
 
     it(`#Spec 3: should failed form validation
@@ -1014,22 +1002,22 @@ when adding one validator to a given nested field with kebap case
 
       // Act
       const formValidation = createFormikValidation(validationSchema);
-      const result = formValidation.validateForm(values);
-
-      // Assert
-      result.then(validationResult => {
-        expect(validationFn).toHaveBeenCalled();
-        expect(validationResult.succeeded).toBeFalsy();
-        expect(validationResult.fieldErrors).toEqual({});
-        expect(validationResult.recordErrors).toEqual({
-          MY_RECORD_VALIDATION: {
-            type: '',
-            succeeded: false,
-            message: 'My custom message',
-          },
+      const result = formValidation
+        .validateForm(values)
+        .catch(validationResult => {
+          // Assert
+          expect(validationFn).toHaveBeenCalled();
+          expect(validationResult.succeeded).toBeFalsy();
+          expect(validationResult.fieldErrors).toEqual({});
+          expect(validationResult.recordErrors).toEqual({
+            MY_RECORD_VALIDATION: {
+              type: '',
+              succeeded: false,
+              message: 'My custom message',
+            },
+          });
+          done();
         });
-        done();
-      });
     });
 
     it(`#Spec 4: should failed form validation
@@ -1056,22 +1044,22 @@ when adding one validator to a given nested field with kebap case
 
       // Act
       const formValidation = createFormikValidation(validationSchema);
-      const result = formValidation.validateForm(values);
-
-      // Assert
-      result.then(validationResult => {
-        expect(validationFn).toHaveBeenCalled();
-        expect(validationResult.succeeded).toBeFalsy();
-        expect(validationResult.fieldErrors).toEqual({});
-        expect(validationResult.recordErrors).toEqual({
-          MY_RECORD_VALIDATION: {
-            type: '',
-            succeeded: false,
-            message: 'My custom message',
-          },
+      const result = formValidation
+        .validateForm(values)
+        .catch(validationResult => {
+          // Assert
+          expect(validationFn).toHaveBeenCalled();
+          expect(validationResult.succeeded).toBeFalsy();
+          expect(validationResult.fieldErrors).toEqual({});
+          expect(validationResult.recordErrors).toEqual({
+            MY_RECORD_VALIDATION: {
+              type: '',
+              succeeded: false,
+              message: 'My custom message',
+            },
+          });
+          done();
         });
-        done();
-      });
     });
 
     it(`#Spec 5: should failed form validation, and return back one validationResult on forms
@@ -1104,23 +1092,23 @@ when adding one validator to a given nested field with kebap case
 
       // Act
       const formValidation = createFormikValidation(validationSchema);
-      const result = formValidation.validateForm(values);
-
-      // Assert
-      result.then(validationResult => {
-        expect(validationFn1).toHaveBeenCalled();
-        expect(validationFn2).not.toHaveBeenCalled();
-        expect(validationResult.succeeded).toBeFalsy();
-        expect(validationResult.fieldErrors).toEqual({});
-        expect(validationResult.recordErrors).toEqual({
-          MY_RECORD_VALIDATION: {
-            type: '',
-            succeeded: false,
-            message: 'mymessageA',
-          },
+      const result = formValidation
+        .validateForm(values)
+        .catch(validationResult => {
+          // Assert
+          expect(validationFn1).toHaveBeenCalled();
+          expect(validationFn2).not.toHaveBeenCalled();
+          expect(validationResult.succeeded).toBeFalsy();
+          expect(validationResult.fieldErrors).toEqual({});
+          expect(validationResult.recordErrors).toEqual({
+            MY_RECORD_VALIDATION: {
+              type: '',
+              succeeded: false,
+              message: 'mymessageA',
+            },
+          });
+          done();
         });
-        done();
-      });
     });
 
     it(`#Spec 6: should failed form validation, and return back one validationResult on forms
@@ -1153,23 +1141,23 @@ when adding one validator to a given nested field with kebap case
 
       // Act
       const formValidation = createFormikValidation(validationSchema);
-      const result = formValidation.validateForm(values);
-
-      // Assert
-      result.then(validationResult => {
-        expect(validationFn1).toHaveBeenCalled();
-        expect(validationFn2).toHaveBeenCalled();
-        expect(validationResult.succeeded).toBeFalsy();
-        expect(validationResult.fieldErrors).toEqual({});
-        expect(validationResult.recordErrors).toEqual({
-          MY_RECORD_VALIDATION: {
-            type: '',
-            succeeded: false,
-            message: 'mymessageB',
-          },
+      const result = formValidation
+        .validateForm(values)
+        .catch(validationResult => {
+          // Assert
+          expect(validationFn1).toHaveBeenCalled();
+          expect(validationFn2).toHaveBeenCalled();
+          expect(validationResult.succeeded).toBeFalsy();
+          expect(validationResult.fieldErrors).toEqual({});
+          expect(validationResult.recordErrors).toEqual({
+            MY_RECORD_VALIDATION: {
+              type: '',
+              succeeded: false,
+              message: 'mymessageB',
+            },
+          });
+          done();
         });
-        done();
-      });
     });
 
     it(`#Spec 7: should failed form validation, and return back one validationResult on forms
@@ -1202,23 +1190,23 @@ when adding one validator to a given nested field with kebap case
 
       // Act
       const formValidation = createFormikValidation(validationSchema);
-      const result = formValidation.validateForm(values);
-
-      // Assert
-      result.then(validationResult => {
-        expect(validationFn1).toHaveBeenCalled();
-        expect(validationFn2).not.toHaveBeenCalled();
-        expect(validationResult.succeeded).toBeFalsy();
-        expect(validationResult.fieldErrors).toEqual({});
-        expect(validationResult.recordErrors).toEqual({
-          MY_RECORD_VALIDATION: {
-            type: '',
-            succeeded: false,
-            message: 'mymessageA',
-          },
+      const result = formValidation
+        .validateForm(values)
+        .catch(validationResult => {
+          // Assert
+          expect(validationFn1).toHaveBeenCalled();
+          expect(validationFn2).not.toHaveBeenCalled();
+          expect(validationResult.succeeded).toBeFalsy();
+          expect(validationResult.fieldErrors).toEqual({});
+          expect(validationResult.recordErrors).toEqual({
+            MY_RECORD_VALIDATION: {
+              type: '',
+              succeeded: false,
+              message: 'mymessageA',
+            },
+          });
+          done();
         });
-        done();
-      });
     });
 
     it(`#Spec 8: should succed form validation, and return back one validationResult on forms
@@ -1251,15 +1239,15 @@ when adding one validator to a given nested field with kebap case
 
       // Act
       const formValidation = createFormikValidation(validationSchema);
-      const result = formValidation.validateForm(values);
-
-      // Assert
-      result.then(validationResult => {
-        expect(validationFn1).toHaveBeenCalled();
-        expect(validationFn2).toHaveBeenCalled();
-        expect(validationResult).toBeNull();
-        done();
-      });
+      const result = formValidation
+        .validateForm(values)
+        .then(validationResult => {
+          // Assert
+          expect(validationFn1).toHaveBeenCalled();
+          expect(validationFn2).toHaveBeenCalled();
+          expect(validationResult).toBeNull();
+          done();
+        });
     });
 
     it(`#Spec 9: should fail form validation, and return back two validationResult on forms
@@ -1293,28 +1281,28 @@ when adding one validator to a given nested field with kebap case
 
       // Act
       const formValidation = createFormikValidation(validationSchema);
-      const result = formValidation.validateForm(values);
-
-      // Assert
-      result.then(validationResult => {
-        expect(validationFn1).toHaveBeenCalled();
-        expect(validationFn2).toHaveBeenCalled();
-        expect(validationResult.succeeded).toBeFalsy();
-        expect(validationResult.fieldErrors).toEqual({});
-        expect(validationResult.recordErrors).toEqual({
-          MY_RECORD_VALIDATION1: {
-            type: '',
-            succeeded: false,
-            message: 'mymessageA',
-          },
-          MY_RECORD_VALIDATION2: {
-            type: '',
-            succeeded: false,
-            message: 'mymessageB',
-          },
+      const result = formValidation
+        .validateForm(values)
+        .catch(validationResult => {
+          // Assert
+          expect(validationFn1).toHaveBeenCalled();
+          expect(validationFn2).toHaveBeenCalled();
+          expect(validationResult.succeeded).toBeFalsy();
+          expect(validationResult.fieldErrors).toEqual({});
+          expect(validationResult.recordErrors).toEqual({
+            MY_RECORD_VALIDATION1: {
+              type: '',
+              succeeded: false,
+              message: 'mymessageA',
+            },
+            MY_RECORD_VALIDATION2: {
+              type: '',
+              succeeded: false,
+              message: 'mymessageB',
+            },
+          });
+          done();
         });
-        done();
-      });
     });
 
     it(`#Spec 10: should failed form validation, and return back a field validation result
@@ -1351,29 +1339,29 @@ when adding one validator to a given nested field with kebap case
 
       // Act
       const formValidation = createFormikValidation(validationSchema);
-      const result = formValidation.validateForm(values);
-
-      // Assert
-      result.then(validationResult => {
-        expect(myFieldValidation).toHaveBeenCalled();
-        expect(myRecordValidation).toHaveBeenCalled();
-        expect(validationResult.succeeded).toBeFalsy();
-        expect(validationResult.fieldErrors).toEqual({
-          username: {
-            type: 'MY_TYPE',
-            succeeded: false,
-            message: 'mymessageA',
-          },
+      const result = formValidation
+        .validateForm(values)
+        .catch(validationResult => {
+          // Assert
+          expect(myFieldValidation).toHaveBeenCalled();
+          expect(myRecordValidation).toHaveBeenCalled();
+          expect(validationResult.succeeded).toBeFalsy();
+          expect(validationResult.fieldErrors).toEqual({
+            username: {
+              type: 'MY_TYPE',
+              succeeded: false,
+              message: 'mymessageA',
+            },
+          });
+          expect(validationResult.recordErrors).toEqual({
+            MY_RECORD_VALIDATION: {
+              type: '',
+              succeeded: false,
+              message: 'mymessageB',
+            },
+          });
+          done();
         });
-        expect(validationResult.recordErrors).toEqual({
-          MY_RECORD_VALIDATION: {
-            type: '',
-            succeeded: false,
-            message: 'mymessageB',
-          },
-        });
-        done();
-      });
     });
 
     it(`#Spec 11: should failed form validation, and return back a one field validation result and one record validation result
@@ -1409,29 +1397,29 @@ when adding one validator to a given nested field with kebap case
 
       // Act
       const formValidation = createFormikValidation(validationSchema);
-      const result = formValidation.validateForm(values);
-
-      // Assert
-      result.then(validationResult => {
-        expect(myFieldValidation).toHaveBeenCalled();
-        expect(myRecordValidation).toHaveBeenCalled();
-        expect(validationResult.succeeded).toBeFalsy();
-        expect(validationResult.fieldErrors).toEqual({
-          username: {
-            type: 'MY_TYPE',
-            succeeded: true,
-            message: 'mymessageA',
-          },
+      const result = formValidation
+        .validateForm(values)
+        .catch(validationResult => {
+          // Assert
+          expect(myFieldValidation).toHaveBeenCalled();
+          expect(myRecordValidation).toHaveBeenCalled();
+          expect(validationResult.succeeded).toBeFalsy();
+          expect(validationResult.fieldErrors).toEqual({
+            username: {
+              type: 'MY_TYPE',
+              succeeded: true,
+              message: 'mymessageA',
+            },
+          });
+          expect(validationResult.recordErrors).toEqual({
+            MY_RECORD_VALIDATION: {
+              type: '',
+              succeeded: false,
+              message: 'mymessageB',
+            },
+          });
+          done();
         });
-        expect(validationResult.recordErrors).toEqual({
-          MY_RECORD_VALIDATION: {
-            type: '',
-            succeeded: false,
-            message: 'mymessageB',
-          },
-        });
-        done();
-      });
     });
 
     it(`#Spec 12: should failed form validation, and return back a field validation result
@@ -1468,29 +1456,29 @@ when adding one validator to a given nested field with kebap case
 
       // Act
       const formValidation = createFormikValidation(validationSchema);
-      const result = formValidation.validateForm(values);
-
-      // Assert
-      result.then(validationResult => {
-        expect(myFieldValidation).toHaveBeenCalled();
-        expect(myRecordValidation).toHaveBeenCalled();
-        expect(validationResult.succeeded).toBeFalsy();
-        expect(validationResult.fieldErrors).toEqual({
-          username: {
-            type: 'MY_TYPE',
-            succeeded: false,
-            message: 'mymessageA',
-          },
+      const result = formValidation
+        .validateForm(values)
+        .catch(validationResult => {
+          // Assert
+          expect(myFieldValidation).toHaveBeenCalled();
+          expect(myRecordValidation).toHaveBeenCalled();
+          expect(validationResult.succeeded).toBeFalsy();
+          expect(validationResult.fieldErrors).toEqual({
+            username: {
+              type: 'MY_TYPE',
+              succeeded: false,
+              message: 'mymessageA',
+            },
+          });
+          expect(validationResult.recordErrors).toEqual({
+            MY_RECORD_VALIDATION: {
+              type: '',
+              succeeded: true,
+              message: 'mymessageB',
+            },
+          });
+          done();
         });
-        expect(validationResult.recordErrors).toEqual({
-          MY_RECORD_VALIDATION: {
-            type: '',
-            succeeded: true,
-            message: 'mymessageB',
-          },
-        });
-        done();
-      });
     });
 
     it(`#Spec 13: should succeed form validation, and return back one field validation result
@@ -1527,18 +1515,17 @@ when adding one validator to a given nested field with kebap case
 
       // Act
       const formValidation = createFormikValidation(validationSchema);
-      const result = formValidation.validateForm(values);
-
-      // Assert
-      result.then(validationResult => {
-        expect(myFieldValidation).toHaveBeenCalled();
-        expect(myRecordValidation).toHaveBeenCalled();
-        expect(validationResult).toBeNull();
-        done();
-      });
+      const result = formValidation
+        .validateForm(values)
+        .then(validationResult => {
+          expect(myFieldValidation).toHaveBeenCalled();
+          expect(myRecordValidation).toHaveBeenCalled();
+          expect(validationResult).toBeNull();
+          done();
+        });
     });
 
-    it(`#Spec 14: should fail form validation, and return one field validation result
+    it(`#Spec 14: should succeed form validation, and return one field validation result
     and form validation result
     when adding two fields validation that succeed with nested fields
     `, done => {
@@ -1600,22 +1587,22 @@ when adding one validator to a given nested field with kebap case
       // Act
       const formValidation = createFormikValidation(validationSchema);
       const values = {};
-      const result = formValidation.validateForm(values);
-
-      // Assert
-      result.then(validationResult => {
-        expect(mockValidationFn).toHaveBeenCalled();
-        expect(validationResult.succeeded).toBeFalsy();
-        expect(validationResult.fieldErrors).toEqual({
-          username: {
-            type: 'MY_TYPE',
-            succeeded: false,
-            message: 'mymessage',
-          },
+      const result = formValidation
+        .validateForm(values)
+        .catch(validationResult => {
+          // Assert
+          expect(mockValidationFn).toHaveBeenCalled();
+          expect(validationResult.succeeded).toBeFalsy();
+          expect(validationResult.fieldErrors).toEqual({
+            username: {
+              type: 'MY_TYPE',
+              succeeded: false,
+              message: 'mymessage',
+            },
+          });
+          expect(validationResult.recordErrors).toEqual({});
+          done();
         });
-        expect(validationResult.recordErrors).toEqual({});
-        done();
-      });
     });
 
     it(`spec #16: should execute a validateForm with field (async and using function in schema) and fail when
@@ -1638,22 +1625,22 @@ when adding one validator to a given nested field with kebap case
       // Act
       const formValidation = createFormikValidation(validationSchema);
       const values = {};
-      const result = formValidation.validateForm(values);
-
-      // Assert
-      result.then(validationResult => {
-        expect(mockValidationFn).toHaveBeenCalled();
-        expect(validationResult.succeeded).toBeFalsy();
-        expect(validationResult.fieldErrors).toEqual({
-          username: {
-            type: 'MY_TYPE',
-            succeeded: false,
-            message: 'mymessage',
-          },
+      const result = formValidation
+        .validateForm(values)
+        .catch(validationResult => {
+          // Assert
+          expect(mockValidationFn).toHaveBeenCalled();
+          expect(validationResult.succeeded).toBeFalsy();
+          expect(validationResult.fieldErrors).toEqual({
+            username: {
+              type: 'MY_TYPE',
+              succeeded: false,
+              message: 'mymessage',
+            },
+          });
+          expect(validationResult.recordErrors).toEqual({});
+          done();
         });
-        expect(validationResult.recordErrors).toEqual({});
-        done();
-      });
     });
 
     it(`spec #17: should execute a validateForm with field (defined as FullValidator, sync function in schema) and fail when
@@ -1683,22 +1670,22 @@ when adding one validator to a given nested field with kebap case
       // Act
       const formValidation = createFormikValidation(validationSchema);
       const values = {};
-      const result = formValidation.validateForm(values);
-
-      // Assert
-      result.then(validationResult => {
-        expect(mockValidationFn).toHaveBeenCalled();
-        expect(validationResult.succeeded).toBeFalsy();
-        expect(validationResult.fieldErrors).toEqual({
-          username: {
-            type: 'MY_TYPE',
-            succeeded: false,
-            message: 'myoverriddenmessage',
-          },
+      const result = formValidation
+        .validateForm(values)
+        .catch(validationResult => {
+          // Assert
+          expect(mockValidationFn).toHaveBeenCalled();
+          expect(validationResult.succeeded).toBeFalsy();
+          expect(validationResult.fieldErrors).toEqual({
+            username: {
+              type: 'MY_TYPE',
+              succeeded: false,
+              message: 'myoverriddenmessage',
+            },
+          });
+          expect(validationResult.recordErrors).toEqual({});
+          done();
         });
-        expect(validationResult.recordErrors).toEqual({});
-        done();
-      });
     });
 
     it(`spec #18: should execute a validateForm with field (defined as FullValidator, async function in schema) and fail when
@@ -1729,22 +1716,22 @@ when adding one validator to a given nested field with kebap case
       // Act
       const formValidation = createFormikValidation(validationSchema);
       const values = {};
-      const result = formValidation.validateForm(values);
-
-      // Assert
-      result.then(validationResult => {
-        expect(mockValidationFn).toHaveBeenCalled();
-        expect(validationResult.succeeded).toBeFalsy();
-        expect(validationResult.fieldErrors).toEqual({
-          username: {
-            type: 'MY_TYPE',
-            succeeded: false,
-            message: 'myoverriddenmessage',
-          },
+      const result = formValidation
+        .validateForm(values)
+        .catch(validationResult => {
+          // Assert
+          expect(mockValidationFn).toHaveBeenCalled();
+          expect(validationResult.succeeded).toBeFalsy();
+          expect(validationResult.fieldErrors).toEqual({
+            username: {
+              type: 'MY_TYPE',
+              succeeded: false,
+              message: 'myoverriddenmessage',
+            },
+          });
+          expect(validationResult.recordErrors).toEqual({});
+          done();
         });
-        expect(validationResult.recordErrors).toEqual({});
-        done();
-      });
     });
 
     it(`spec #19: should execute a validateForm with field (defined as FullValidator, async function in schema) and fail when
@@ -1777,23 +1764,23 @@ when adding one validator to a given nested field with kebap case
       // Act
       const formValidation = createFormikValidation(validationSchema);
       const values = { username: 'whatever' };
-      const result = formValidation.validateForm(values);
-
-      // Assert
-      result.then(validationResult => {
-        expect(mockValidationFn).toHaveBeenCalled();
-        expect(validationResult.succeeded).toBeFalsy();
-        expect(validationResult.fieldErrors).toEqual({
-          username: {
-            type: 'MY_TYPE',
-            succeeded: false,
-            message:
-              'whatever myoverriddenmessage custom-arg {"username":"whatever"}',
-          },
+      const result = formValidation
+        .validateForm(values)
+        .catch(validationResult => {
+          // Assert
+          expect(mockValidationFn).toHaveBeenCalled();
+          expect(validationResult.succeeded).toBeFalsy();
+          expect(validationResult.fieldErrors).toEqual({
+            username: {
+              type: 'MY_TYPE',
+              succeeded: false,
+              message:
+                'whatever myoverriddenmessage custom-arg {"username":"whatever"}',
+            },
+          });
+          expect(validationResult.recordErrors).toEqual({});
+          done();
         });
-        expect(validationResult.recordErrors).toEqual({});
-        done();
-      });
     });
 
     it(`spec #20:should execute a validateForm with field (sync and using full schema) passing
@@ -1832,22 +1819,22 @@ when adding one validator to a given nested field with kebap case
       // Act
       const formValidation = createFormikValidation(validationSchema);
       const values = {};
-      const result = formValidation.validateForm(values);
-
-      // Assert
-      result.then(validationResult => {
-        expect(mockValidationFn).toHaveBeenCalled();
-        expect(validationResult.succeeded).toBeFalsy();
-        expect(validationResult.fieldErrors).toEqual({
-          username: {
-            type: 'MY_TYPE',
-            succeeded: false,
-            message: 'received custom args fail true',
-          },
+      const result = formValidation
+        .validateForm(values)
+        .catch(validationResult => {
+          // Assert
+          expect(mockValidationFn).toHaveBeenCalled();
+          expect(validationResult.succeeded).toBeFalsy();
+          expect(validationResult.fieldErrors).toEqual({
+            username: {
+              type: 'MY_TYPE',
+              succeeded: false,
+              message: 'received custom args fail true',
+            },
+          });
+          expect(validationResult.recordErrors).toEqual({});
+          done();
         });
-        expect(validationResult.recordErrors).toEqual({});
-        done();
-      });
     });
 
     it(`spec #21:should execute a validateForm with field (sync and using full schema) passing
@@ -1891,7 +1878,7 @@ when adding one validator to a given nested field with kebap case
       // Assert
       result.then(validationResult => {
         expect(mockValidationFn).toHaveBeenCalled();
-        expect(validationResult);
+        expect(validationResult).toBeNull;
         done();
       });
     });
@@ -1957,23 +1944,23 @@ when adding two validators to a given field and first fails
       // Act
       const formValidation = createFormikValidation(validationSchema);
       const values = {};
-      const result = formValidation.validateForm(values);
-
-      // Assert
-      result.then(validationResult => {
-        expect(mockValidationFn1).toHaveBeenCalled();
-        expect(mockValidationFn2).not.toHaveBeenCalled();
-        expect(validationResult.succeeded).toBeFalsy();
-        expect(validationResult.fieldErrors).toEqual({
-          username: {
-            type: 'MY_VALIDATOR_A',
-            succeeded: false,
-            message: 'mymessageA',
-          },
+      const result = formValidation
+        .validateForm(values)
+        .catch(validationResult => {
+          // Assert
+          expect(mockValidationFn1).toHaveBeenCalled();
+          expect(mockValidationFn2).not.toHaveBeenCalled();
+          expect(validationResult.succeeded).toBeFalsy();
+          expect(validationResult.fieldErrors).toEqual({
+            username: {
+              type: 'MY_VALIDATOR_A',
+              succeeded: false,
+              message: 'mymessageA',
+            },
+          });
+          expect(validationResult.recordErrors).toEqual({});
+          done();
         });
-        expect(validationResult.recordErrors).toEqual({});
-        done();
-      });
     });
 
     it(`spec #24:should execute two validations for a given field and failed validateForm with field
@@ -2001,23 +1988,23 @@ when adding two validators to a given field and second fails
       // Act
       const formValidation = createFormikValidation(validationSchema);
       const values = {};
-      const result = formValidation.validateForm(values);
-
-      // Assert
-      result.then(validationResult => {
-        expect(mockValidationFn1).toHaveBeenCalled();
-        expect(mockValidationFn2).toHaveBeenCalled();
-        expect(validationResult.succeeded).toBeFalsy();
-        expect(validationResult.fieldErrors).toEqual({
-          username: {
-            type: 'MY_VALIDATOR_B',
-            succeeded: false,
-            message: 'mymessageB',
-          },
+      const result = formValidation
+        .validateForm(values)
+        .catch(validationResult => {
+          // Assert
+          expect(mockValidationFn1).toHaveBeenCalled();
+          expect(mockValidationFn2).toHaveBeenCalled();
+          expect(validationResult.succeeded).toBeFalsy();
+          expect(validationResult.fieldErrors).toEqual({
+            username: {
+              type: 'MY_VALIDATOR_B',
+              succeeded: false,
+              message: 'mymessageB',
+            },
+          });
+          expect(validationResult.recordErrors).toEqual({});
+          done();
         });
-        expect(validationResult.recordErrors).toEqual({});
-        done();
-      });
     });
 
     it(`spec #25:should execute first validation for a given field and failed validateForm with field
@@ -2045,23 +2032,23 @@ when adding two validators to a given field fails and second fails
       // Act
       const formValidation = createFormikValidation(validationSchema);
       const values = {};
-      const result = formValidation.validateForm(values);
-
-      // Assert
-      result.then(validationResult => {
-        expect(mockValidationFn1).toHaveBeenCalled();
-        expect(mockValidationFn2).not.toHaveBeenCalled();
-        expect(validationResult.succeeded).toBeFalsy();
-        expect(validationResult.fieldErrors).toEqual({
-          username: {
-            type: 'MY_VALIDATOR_A',
-            succeeded: false,
-            message: 'mymessageA',
-          },
+      const result = formValidation
+        .validateForm(values)
+        .catch(validationResult => {
+          // Assert
+          expect(mockValidationFn1).toHaveBeenCalled();
+          expect(mockValidationFn2).not.toHaveBeenCalled();
+          expect(validationResult.succeeded).toBeFalsy();
+          expect(validationResult.fieldErrors).toEqual({
+            username: {
+              type: 'MY_VALIDATOR_A',
+              succeeded: false,
+              message: 'mymessageA',
+            },
+          });
+          expect(validationResult.recordErrors).toEqual({});
+          done();
         });
-        expect(validationResult.recordErrors).toEqual({});
-        done();
-      });
     });
 
     it(`#Spec 26: should fail form validation, and return one field validation result
