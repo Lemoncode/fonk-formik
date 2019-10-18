@@ -24,13 +24,15 @@ export class FormikValidation {
     value: any,
     values?: any
   ): Promise<ValidationResult> {
-    return this.formValidation.validateField(name, value).then(result => {
-      if (!result.succeeded) {
-        throw result;
-      }
+    return this.formValidation
+      .validateField(fieldId, value, values)
+      .then(result => {
+        if (!result.succeeded) {
+          throw result;
+        }
 
-      return null;
-    });
+        return null;
+      });
   }
 
   public validateRecord(values: any): Promise<RecordValidationResult> {
@@ -46,10 +48,6 @@ export class FormikValidation {
   public validateForm(values: any): Promise<FormValidationResult> {
     return this.formValidation.validateForm(values).then(result => {
       if (!result.succeeded) {
-        // To be discussed here should we return only FielValidation
-        // results? if not it won't be able to match field and
-        // validations
-        // throw result.fieldErrors
         throw result;
       }
 
