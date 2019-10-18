@@ -8,7 +8,6 @@ import {
 } from '@lemoncode/fonk';
 
 /*
-// TODO
 Formik expects a validation to be thrown if there are errors
  */
 export class FormikValidation {
