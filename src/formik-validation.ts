@@ -9,7 +9,7 @@ import {
 
 /*
 // TODO
-Formik expects a validator to return ...
+Formik expects a validation to be thrown if there are errors
  */
 export class FormikValidation {
   formValidation: FormValidationExtended.FormValidation = null;
@@ -18,7 +18,6 @@ export class FormikValidation {
     this.formValidation = createFormValidation(validationSchema);
   }
 
-  // Discuss here, Promise<any> return value is not really used
   public validateField(
     fieldId: string,
     value: any,
