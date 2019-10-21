@@ -37,7 +37,7 @@ Example: how to validate at form validation level (Formik >> validate)
 ```diff
     <Formik
       initialValues={{ email: "", password: "" }}
-+       validate={formValidation}
++       validate={formValidation.validateForm}
       onSubmit={(values, { setSubmitting }) => {
         setTimeout(() => {
           alert(JSON.stringify(values, null, 2));
@@ -53,7 +53,7 @@ Example: how to validate at field level validation
   <form onSubmit={handleSubmit}>
     <Field 
       name="email" 
-+      validate={(value) => validateField("email", value)} />
++      validate={(value) => formValidation.validateField("email", value)} />
 ```
 
 Example: How to display field validation error message:
