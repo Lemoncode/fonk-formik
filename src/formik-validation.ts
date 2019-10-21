@@ -46,7 +46,10 @@ export class FormikValidation {
   public validateForm(values: any): Promise<FormValidationResult> {
     return this.formValidation.validateForm(values).then(result => {
       if (!result.succeeded) {
-        throw result;
+        throw {
+          ...result.fieldErrors,
+          recordErrors: result.recordErrors,
+        };
       }
 
       return null;
