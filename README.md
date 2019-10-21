@@ -32,6 +32,40 @@ const validationSchema = {
 + export const formValidation = createFormikValidation(validationSchema);
 ```
 
+Example: how to validate at form validation level (Formik >> validate)
+
+```diff
+    <Formik
+      initialValues={{ email: "", password: "" }}
++       validate={formValidation}
+      onSubmit={(values, { setSubmitting }) => {
+        setTimeout(() => {
+          alert(JSON.stringify(values, null, 2));
+          setSubmitting(false);
+        }, 400);
+      }}
+    >
+```
+
+Example: how to validate at field level validation
+
+```diff
+  <form onSubmit={handleSubmit}>
+    <Field 
+      name="email" 
++      validate={(value) => validateField("email", value)} />
+```
+
+Example: How to display field validation error message:
+
+```diff
+    <Field name="email" validate={validateField("email")} />
++    {errors &&
++      errors.email &&
++      errors.email.message &&
++       touched.email && 
++       <div>{errors.email.message}</div>}
+```
 
 
 # About Basefactor + Lemoncode
