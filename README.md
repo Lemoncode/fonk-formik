@@ -14,6 +14,26 @@ How to install:
 npm install @lemoncode/fonk-formik --save
 ```
 
+Replace _createFormValidation_ with _createFormikValidation_ e.g.
+
+```diff
+- import { Validators, createFormValidation } from "@lemoncode/fonk";
++ import { Validators } from "@lemoncode/fonk";
++ import { createFormikValidation } from "@lemoncode/fonk-formik";
+
+const validationSchema = {
+  field: {
+    email: [Validators.required.validator],
+    password: [Validators.required.validator]
+  }
+};
+
+- export const formValidation = createFormikValidation(validationSchema);
++ export const formValidation = createFormikValidation(validationSchema);
+```
+
+
+
 # About Basefactor + Lemoncode
 
 We are an innovating team of Javascript experts, passionate about turning your ideas into robust products.
