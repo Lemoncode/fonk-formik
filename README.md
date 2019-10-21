@@ -8,6 +8,12 @@ This package serves as the entry point to the Formik Form state management libra
 
 Check our [Fonk Documentation site](https://lemoncode.github.io/fonk-doc/) and [Formik](https://lemoncode.github.io/fonk-doc/formik) section.
 
+How to install:
+
+```bash
+npm install @lemoncode/fonk-formik --save
+```
+
 # About Basefactor + Lemoncode
 
 We are an innovating team of Javascript experts, passionate about turning your ideas into robust products.
