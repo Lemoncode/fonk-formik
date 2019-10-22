@@ -18,8 +18,6 @@ export function createFormikValidation(
   validationSchema: ValidationSchema
 ): FormikValidation;
 
-export type FormikFormValidationResult<T> = T & { recordErrors? };
-
 interface FormikValidation {
   validateField: (
     fieldId: string,
@@ -29,5 +27,5 @@ interface FormikValidation {
 
   validateRecord: (values: any) => Promise<RecordValidationResult>;
 
-  validateForm: <T>(values: T) => Promise<FormikFormValidationResult<T>>;
+  validateForm: (values: any) => Promise<any>;
 }
