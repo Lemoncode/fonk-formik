@@ -2,7 +2,6 @@ import {
   FormValidationExtended,
   ValidationResult,
   ValidationSchema,
-  RecordValidationResult,
   FormValidationResult,
   createFormValidation,
 } from '@lemoncode/fonk';
@@ -17,26 +16,37 @@ export class FormikValidation {
     this.formValidation = createFormValidation(validationSchema);
   }
 
+  private flatErrorsToMessages = (errors: {
+    [fieldId: string]: ValidationResult;
+  }): Record<string, string> =>
+    Object.keys(errors).reduce(
+      (dest, key) => ({
+        ...dest,
+        [key]: errors[key] && !errors[key].succeeded ? errors[key].message : '',
+      }),
+      {}
+    );
+
   public validateField(
     fieldId: string,
     value: any,
     values?: any
-  ): Promise<ValidationResult> {
+  ): Promise<any> {
     return this.formValidation
       .validateField(fieldId, value, values)
       .then(result => {
         if (!result.succeeded) {
-          throw result;
+          throw result.message;
         }
 
         return null;
       });
   }
 
-  public validateRecord(values: any): Promise<RecordValidationResult> {
+  public validateRecord(values: any): Promise<any> {
     return this.formValidation.validateRecord(values).then(result => {
       if (!result.succeeded) {
-        throw result;
+        throw this.flatErrorsToMessages(result.recordErrors);
       }
 
       return null;
@@ -47,8 +57,8 @@ export class FormikValidation {
     return this.formValidation.validateForm(values).then(result => {
       if (!result.succeeded) {
         throw {
-          ...result.fieldErrors,
-          recordErrors: result.recordErrors,
+          ...this.flatErrorsToMessages(result.fieldErrors),
+          recordErrors: { ...this.flatErrorsToMessages(result.recordErrors) },
         };
       }
 
