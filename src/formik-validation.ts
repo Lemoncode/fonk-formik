@@ -2,7 +2,6 @@ import {
   FormValidationExtended,
   ValidationResult,
   ValidationSchema,
-  RecordValidationResult,
   FormValidationResult,
   createFormValidation,
 } from '@lemoncode/fonk';
@@ -17,11 +16,18 @@ export class FormikValidation {
     this.formValidation = createFormValidation(validationSchema);
   }
 
-  public validateField(
-    fieldId: string,
-    value: any,
-    values?: any
-  ): Promise<ValidationResult> {
+  private flatErrorsToMessages = (errors: {
+    [fieldId: string]: ValidationResult;
+  }): Record<string, string> =>
+    Object.keys(errors).reduce(
+      (dest, key) => ({
+        ...dest,
+        [key]: errors[key] ? errors[key].message : '',
+      }),
+      {}
+    );
+
+  public validateField(fieldId: string, value: any, values?: any) {
     return this.formValidation
       .validateField(fieldId, value, values)
       .then(result => {
@@ -33,34 +39,22 @@ export class FormikValidation {
       });
   }
 
-  public validateRecord(values: any): Promise<RecordValidationResult> {
+  public validateRecord(values: any) {
     return this.formValidation.validateRecord(values).then(result => {
       if (!result.succeeded) {
-        throw result;
+        throw this.flatErrorsToMessages(result.recordErrors);
       }
 
       return null;
     });
   }
 
-  private fieldErrorsToFlatString(fieldErrors: {
-    [fieldId: string]: ValidationResult;
-  }): Record<string, string> {
-    return Object.keys(fieldErrors).reduce(
-      (dest, key) => ({
-        ...dest,
-        [key]: fieldErrors[key] ? fieldErrors[key].message : '',
-      }),
-      {}
-    );
-  }
-
-  public validateForm(values: any): Promise<any> {
+  public validateForm(values: any): Promise<FormValidationResult> {
     return this.formValidation.validateForm(values).then(result => {
       if (!result.succeeded) {
         throw {
-          ...this.fieldErrorsToFlatString(result.fieldErrors),
-          recordErrors: result.recordErrors,
+          ...this.flatErrorsToMessages(result.fieldErrors),
+          ...this.flatErrorsToMessages(result.recordErrors),
         };
       }
 
