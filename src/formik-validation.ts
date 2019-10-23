@@ -46,7 +46,9 @@ export class FormikValidation {
   public validateRecord(values: any): Promise<any> {
     return this.formValidation.validateRecord(values).then(result => {
       if (!result.succeeded) {
-        throw this.flatErrorsToMessages(result.recordErrors);
+        throw {
+          recordErrors: { ...this.flatErrorsToMessages(result.recordErrors) },
+        };
       }
 
       return null;
