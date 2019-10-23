@@ -1,6 +1,6 @@
 {
   "name": "@lemoncode/fonk-formik",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "Fonk library for use with react-formik",
   "main": "dist/@lemoncode/fonk-formik.cjs.js",
   "module": "dist/@lemoncode/fonk-formik.esm.js",
