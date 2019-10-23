@@ -44,9 +44,7 @@ describe('FormValidation', () => {
       formValidation
         .validateField('username', 'whatever')
         .catch(validationResult => {
-          expect(validationResult.succeeded).toBe(false);
-          expect(validationResult.type).toBe('MY_TYPE');
-          expect(validationResult.message).toBe('mymessage');
+          expect(validationResult).toBe('mymessage');
           expect(mockValidationFn).toHaveBeenCalled();
           done();
         });
@@ -75,9 +73,7 @@ describe('FormValidation', () => {
         .validateField('username', 'whatever')
         .catch(validationResult => {
           // Assert
-          expect(validationResult.succeeded).toBe(false);
-          expect(validationResult.type).toBe('MY_TYPE');
-          expect(validationResult.message).toBe('mymessage');
+          expect(validationResult).toBe('mymessage');
           expect(mockValidationFn).toHaveBeenCalled();
           done();
         });
@@ -113,9 +109,7 @@ describe('FormValidation', () => {
         .validateField('username', 'whatever')
         .catch(validationResult => {
           // Assert
-          expect(validationResult.succeeded).toBe(false);
-          expect(validationResult.type).toBe('MY_TYPE');
-          expect(validationResult.message).toBe('myoverriddenmessage');
+          expect(validationResult).toBe('myoverriddenmessage');
           expect(mockValidationFn).toHaveBeenCalled();
           done();
         });
@@ -152,9 +146,7 @@ describe('FormValidation', () => {
         .validateField('username', 'whatever')
         .catch(validationResult => {
           // Assert
-          expect(validationResult.succeeded).toBe(false);
-          expect(validationResult.type).toBe('MY_TYPE');
-          expect(validationResult.message).toBe('myoverriddenmessage');
+          expect(validationResult).toBe('myoverriddenmessage');
           expect(mockValidationFn).toHaveBeenCalled();
           done();
         });
@@ -191,9 +183,7 @@ describe('FormValidation', () => {
         .validateField('username', 'whatever', 'test-values')
         .catch(validationResult => {
           // Assert
-          expect(validationResult.succeeded).toBe(false);
-          expect(validationResult.type).toBe('MY_TYPE');
-          expect(validationResult.message).toBe(
+          expect(validationResult).toBe(
             'whatever myoverriddenmessage custom-arg test-values'
           );
           expect(mockValidationFn).toHaveBeenCalled();
@@ -240,11 +230,7 @@ describe('FormValidation', () => {
         .validateField('username', 'whatever')
         .catch(validationResult => {
           // Assert
-          expect(validationResult.succeeded).toBe(false);
-          expect(validationResult.type).toBe('MY_TYPE');
-          expect(validationResult.message).toBe(
-            'received custom args fail true'
-          );
+          expect(validationResult).toBe('received custom args fail true');
           expect(validator).toHaveBeenCalled();
           done();
         });
@@ -355,8 +341,7 @@ when adding two validators to a given field and first fails
         .validateField('username', 'whatever')
         .catch(validationResult => {
           // Assert
-          expect(validationResult.succeeded).toBe(false);
-          expect(validationResult.type).toBe('MY_VALIDATOR_A');
+          expect(validationResult).toBe('mymessageA');
           expect(mockValidationFn1).toHaveBeenCalled();
           expect(mockValidationFn2).not.toHaveBeenCalled();
           done();
@@ -391,8 +376,7 @@ when adding two validators to a given field and second fails
         .validateField('username', 'whatever')
         .catch(validationResult => {
           // Assert
-          expect(validationResult.succeeded).toBe(false);
-          expect(validationResult.type).toBe('MY_VALIDATOR_B');
+          expect(validationResult).toBe('mymessageB');
           expect(mockValidationFn1).toHaveBeenCalled();
           expect(mockValidationFn2).toHaveBeenCalled();
           done();
@@ -427,8 +411,7 @@ when adding two validators to a given field fails and second fails
         .validateField('username', 'whatever')
         .catch(validationResult => {
           // Assert
-          expect(validationResult.succeeded).toBe(false);
-          expect(validationResult.type).toBe('MY_VALIDATOR_A');
+          expect(validationResult).toBe('mymessageA');
           expect(mockValidationFn1).toHaveBeenCalled();
           expect(mockValidationFn2).not.toHaveBeenCalled();
           done();
@@ -457,8 +440,7 @@ when adding one validator to a given nested field
         .validateField('nested.field', 'whatever')
         .catch(validationResult => {
           // Assert
-          expect(validationResult.succeeded).toBe(false);
-          expect(validationResult.type).toBe('MY_VALIDATOR_A');
+          expect(validationResult).toBe('mymessageA');
           expect(mockValidationFn).toHaveBeenCalled();
           done();
         });
@@ -486,8 +468,7 @@ when adding one validator to a given nested field with kebap case
         .validateField('this-is-a-nested.field', 'whatever')
         .catch(validationResult => {
           // Assert
-          expect(validationResult.succeeded).toBe(false);
-          expect(validationResult.type).toBe('MY_VALIDATOR_A');
+          expect(validationResult).toBe('mymessageA');
           expect(mockValidationFn).toHaveBeenCalled();
           done();
         });
@@ -1338,11 +1319,7 @@ when adding one validator to a given nested field with kebap case
           expect(myFieldValidation).toHaveBeenCalled();
           expect(myRecordValidation).toHaveBeenCalled();
           expect(validationResult.succeeded).toBeFalsy();
-          expect(validationResult.username).toEqual({
-            type: 'MY_TYPE',
-            succeeded: false,
-            message: 'mymessageA',
-          });
+          expect(validationResult.username).toEqual('mymessageA');
           expect(validationResult.recordErrors).toEqual({
             MY_RECORD_VALIDATION: {
               type: '',
@@ -1394,11 +1371,7 @@ when adding one validator to a given nested field with kebap case
           expect(myFieldValidation).toHaveBeenCalled();
           expect(myRecordValidation).toHaveBeenCalled();
           expect(validationResult.succeeded).toBeFalsy();
-          expect(validationResult.username).toEqual({
-            type: 'MY_TYPE',
-            succeeded: true,
-            message: 'mymessageA',
-          });
+          expect(validationResult.username).toEqual('mymessageA');
           expect(validationResult.recordErrors).toEqual({
             MY_RECORD_VALIDATION: {
               type: '',
@@ -1451,11 +1424,7 @@ when adding one validator to a given nested field with kebap case
           expect(myFieldValidation).toHaveBeenCalled();
           expect(myRecordValidation).toHaveBeenCalled();
           expect(validationResult.succeeded).toBeFalsy();
-          expect(validationResult.username).toEqual({
-            type: 'MY_TYPE',
-            succeeded: false,
-            message: 'mymessageA',
-          });
+          expect(validationResult.username).toEqual('mymessageA');
           expect(validationResult.recordErrors).toEqual({
             MY_RECORD_VALIDATION: {
               type: '',
@@ -1579,11 +1548,7 @@ when adding one validator to a given nested field with kebap case
           // Assert
           expect(mockValidationFn).toHaveBeenCalled();
           expect(validationResult.succeeded).toBeFalsy();
-          expect(validationResult.username).toEqual({
-            type: 'MY_TYPE',
-            succeeded: false,
-            message: 'mymessage',
-          });
+          expect(validationResult.username).toEqual('mymessage');
           expect(validationResult.recordErrors).toEqual({});
           done();
         });
@@ -1615,11 +1580,7 @@ when adding one validator to a given nested field with kebap case
           // Assert
           expect(mockValidationFn).toHaveBeenCalled();
           expect(validationResult.succeeded).toBeFalsy();
-          expect(validationResult.username).toEqual({
-            type: 'MY_TYPE',
-            succeeded: false,
-            message: 'mymessage',
-          });
+          expect(validationResult.username).toEqual('mymessage');
           expect(validationResult.recordErrors).toEqual({});
           done();
         });
@@ -1658,11 +1619,7 @@ when adding one validator to a given nested field with kebap case
           // Assert
           expect(mockValidationFn).toHaveBeenCalled();
           expect(validationResult.succeeded).toBeFalsy();
-          expect(validationResult.username).toEqual({
-            type: 'MY_TYPE',
-            succeeded: false,
-            message: 'myoverriddenmessage',
-          });
+          expect(validationResult.username).toEqual('myoverriddenmessage');
           expect(validationResult.recordErrors).toEqual({});
           done();
         });
@@ -1702,11 +1659,7 @@ when adding one validator to a given nested field with kebap case
           // Assert
           expect(mockValidationFn).toHaveBeenCalled();
           expect(validationResult.succeeded).toBeFalsy();
-          expect(validationResult.username).toEqual({
-            type: 'MY_TYPE',
-            succeeded: false,
-            message: 'myoverriddenmessage',
-          });
+          expect(validationResult.username).toEqual('myoverriddenmessage');
           expect(validationResult.recordErrors).toEqual({});
           done();
         });
@@ -1748,12 +1701,9 @@ when adding one validator to a given nested field with kebap case
           // Assert
           expect(mockValidationFn).toHaveBeenCalled();
           expect(validationResult.succeeded).toBeFalsy();
-          expect(validationResult.username).toEqual({
-            type: 'MY_TYPE',
-            succeeded: false,
-            message:
-              'whatever myoverriddenmessage custom-arg {"username":"whatever"}',
-          });
+          expect(validationResult.username).toEqual(
+            'whatever myoverriddenmessage custom-arg {"username":"whatever"}'
+          );
           expect(validationResult.recordErrors).toEqual({});
           done();
         });
@@ -1801,11 +1751,9 @@ when adding one validator to a given nested field with kebap case
           // Assert
           expect(mockValidationFn).toHaveBeenCalled();
           expect(validationResult.succeeded).toBeFalsy();
-          expect(validationResult.username).toEqual({
-            type: 'MY_TYPE',
-            succeeded: false,
-            message: 'received custom args fail true',
-          });
+          expect(validationResult.username).toEqual(
+            'received custom args fail true'
+          );
           expect(validationResult.recordErrors).toEqual({});
           done();
         });
@@ -1925,11 +1873,7 @@ when adding two validators to a given field and first fails
           expect(mockValidationFn1).toHaveBeenCalled();
           expect(mockValidationFn2).not.toHaveBeenCalled();
           expect(validationResult.succeeded).toBeFalsy();
-          expect(validationResult.username).toEqual({
-            type: 'MY_VALIDATOR_A',
-            succeeded: false,
-            message: 'mymessageA',
-          });
+          expect(validationResult.username).toEqual('mymessageA');
           expect(validationResult.recordErrors).toEqual({});
           done();
         });
@@ -1967,11 +1911,7 @@ when adding two validators to a given field and second fails
           expect(mockValidationFn1).toHaveBeenCalled();
           expect(mockValidationFn2).toHaveBeenCalled();
           expect(validationResult.succeeded).toBeFalsy();
-          expect(validationResult.username).toEqual({
-            type: 'MY_VALIDATOR_B',
-            succeeded: false,
-            message: 'mymessageB',
-          });
+          expect(validationResult.username).toEqual('mymessageB');
           expect(validationResult.recordErrors).toEqual({});
           done();
         });
@@ -2009,11 +1949,7 @@ when adding two validators to a given field fails and second fails
           expect(mockValidationFn1).toHaveBeenCalled();
           expect(mockValidationFn2).not.toHaveBeenCalled();
           expect(validationResult.succeeded).toBeFalsy();
-          expect(validationResult.username).toEqual({
-            type: 'MY_VALIDATOR_A',
-            succeeded: false,
-            message: 'mymessageA',
-          });
+          expect(validationResult.username).toEqual('mymessageA');
           expect(validationResult.recordErrors).toEqual({});
           done();
         });
