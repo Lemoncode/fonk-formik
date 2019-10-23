@@ -22,12 +22,16 @@ export class FormikValidation {
     Object.keys(errors).reduce(
       (dest, key) => ({
         ...dest,
-        [key]: errors[key] ? errors[key].message : '',
+        [key]: errors[key] && !errors[key].succeeded ? errors[key].message : '',
       }),
       {}
     );
 
-  public validateField(fieldId: string, value: any, values?: any) {
+  public validateField(
+    fieldId: string,
+    value: any,
+    values?: any
+  ): Promise<any> {
     return this.formValidation
       .validateField(fieldId, value, values)
       .then(result => {
@@ -39,7 +43,7 @@ export class FormikValidation {
       });
   }
 
-  public validateRecord(values: any) {
+  public validateRecord(values: any): Promise<any> {
     return this.formValidation.validateRecord(values).then(result => {
       if (!result.succeeded) {
         throw this.flatErrorsToMessages(result.recordErrors);
@@ -49,12 +53,12 @@ export class FormikValidation {
     });
   }
 
-  public validateForm(values: any): Promise<FormValidationResult> {
+  public validateForm(values: any): Promise<any> {
     return this.formValidation.validateForm(values).then(result => {
       if (!result.succeeded) {
         throw {
           ...this.flatErrorsToMessages(result.fieldErrors),
-          ...this.flatErrorsToMessages(result.recordErrors),
+          recordErrors: { ...this.flatErrorsToMessages(result.recordErrors) },
         };
       }
 

@@ -782,7 +782,7 @@ when adding one validator to a given nested field with kebap case
           // Assert
           expect(validationFn1).toHaveBeenCalled();
           expect(validationFn2).toHaveBeenCalled();
-          expect(validationResult).toBe(null);
+          expect(validationResult).toBeNull();
           done();
         });
     });
@@ -862,7 +862,9 @@ when adding one validator to a given nested field with kebap case
           // Assert
           expect(mockValidationFn).toHaveBeenCalled();
           expect(validationResult).toEqual({
-            MY_RECORD_VALIDATION: 'mymessageA',
+            recordErrors: {
+              MY_RECORD_VALIDATION: 'mymessageA',
+            },
           });
           done();
         });
@@ -896,7 +898,9 @@ when adding one validator to a given nested field with kebap case
           // Assert
           expect(mockValidationFn).toHaveBeenCalled();
           expect(validationResult).toEqual({
-            MY_RECORD_VALIDATION: 'mymessageA',
+            recordErrors: {
+              MY_RECORD_VALIDATION: 'mymessageA',
+            },
           });
           done();
         });
@@ -933,7 +937,9 @@ when adding one validator to a given nested field with kebap case
           // Assert
           expect(validationFn).toHaveBeenCalled();
           expect(validationResult).toEqual({
-            MY_RECORD_VALIDATION: 'My custom message',
+            recordErrors: {
+              MY_RECORD_VALIDATION: 'My custom message',
+            },
           });
           done();
         });
@@ -969,7 +975,9 @@ when adding one validator to a given nested field with kebap case
           // Assert
           expect(validationFn).toHaveBeenCalled();
           expect(validationResult).toEqual({
-            MY_RECORD_VALIDATION: 'My custom message',
+            recordErrors: {
+              MY_RECORD_VALIDATION: 'My custom message',
+            },
           });
           done();
         });
@@ -1012,7 +1020,9 @@ when adding one validator to a given nested field with kebap case
           expect(validationFn1).toHaveBeenCalled();
           expect(validationFn2).not.toHaveBeenCalled();
           expect(validationResult).toEqual({
-            MY_RECORD_VALIDATION: 'mymessageA',
+            recordErrors: {
+              MY_RECORD_VALIDATION: 'mymessageA',
+            },
           });
           done();
         });
@@ -1055,7 +1065,9 @@ when adding one validator to a given nested field with kebap case
           expect(validationFn1).toHaveBeenCalled();
           expect(validationFn2).toHaveBeenCalled();
           expect(validationResult).toEqual({
-            MY_RECORD_VALIDATION: 'mymessageB',
+            recordErrors: {
+              MY_RECORD_VALIDATION: 'mymessageB',
+            },
           });
           done();
         });
@@ -1098,7 +1110,9 @@ when adding one validator to a given nested field with kebap case
           expect(validationFn1).toHaveBeenCalled();
           expect(validationFn2).not.toHaveBeenCalled();
           expect(validationResult).toEqual({
-            MY_RECORD_VALIDATION: 'mymessageA',
+            recordErrors: {
+              MY_RECORD_VALIDATION: 'mymessageA',
+            },
           });
           done();
         });
@@ -1183,8 +1197,10 @@ when adding one validator to a given nested field with kebap case
           expect(validationFn1).toHaveBeenCalled();
           expect(validationFn2).toHaveBeenCalled();
           expect(validationResult).toEqual({
-            MY_RECORD_VALIDATION1: 'mymessageA',
-            MY_RECORD_VALIDATION2: 'mymessageB',
+            recordErrors: {
+              MY_RECORD_VALIDATION1: 'mymessageA',
+              MY_RECORD_VALIDATION2: 'mymessageB',
+            },
           });
           done();
         });
@@ -1232,7 +1248,9 @@ when adding one validator to a given nested field with kebap case
           expect(myRecordValidation).toHaveBeenCalled();
           expect(validationResult).toEqual({
             username: 'mymessageA',
-            MY_RECORD_VALIDATION: 'mymessageB',
+            recordErrors: {
+              MY_RECORD_VALIDATION: 'mymessageB',
+            },
           });
           done();
         });
@@ -1278,8 +1296,10 @@ when adding one validator to a given nested field with kebap case
           expect(myFieldValidation).toHaveBeenCalled();
           expect(myRecordValidation).toHaveBeenCalled();
           expect(validationResult).toEqual({
-            username: 'mymessageA',
-            MY_RECORD_VALIDATION: 'mymessageB',
+            username: '',
+            recordErrors: {
+              MY_RECORD_VALIDATION: 'mymessageB',
+            },
           });
           done();
         });
@@ -1327,9 +1347,10 @@ when adding one validator to a given nested field with kebap case
           expect(myRecordValidation).toHaveBeenCalled();
           expect(validationResult).toEqual({
             username: 'mymessageA',
-            MY_RECORD_VALIDATION: 'mymessageB',
+            recordErrors: {
+              MY_RECORD_VALIDATION: '',
+            },
           });
-          expect(validationResult.username).toEqual('mymessageA');
           done();
         });
     });
@@ -1415,7 +1436,7 @@ when adding one validator to a given nested field with kebap case
       result.then(validationResult => {
         expect(myFieldValidation1).toHaveBeenCalled();
         expect(myFieldValidation2).toHaveBeenCalled();
-        expect(validationResult).toBe(null);
+        expect(validationResult).toBeNull();
         done();
       });
     });
@@ -1447,6 +1468,7 @@ when adding one validator to a given nested field with kebap case
           expect(mockValidationFn).toHaveBeenCalled();
           expect(validationResult).toEqual({
             username: 'mymessage',
+            recordErrors: {},
           });
           done();
         });
@@ -1479,6 +1501,7 @@ when adding one validator to a given nested field with kebap case
           expect(mockValidationFn).toHaveBeenCalled();
           expect(validationResult).toEqual({
             username: 'mymessage',
+            recordErrors: {},
           });
           done();
         });
@@ -1518,6 +1541,7 @@ when adding one validator to a given nested field with kebap case
           expect(mockValidationFn).toHaveBeenCalled();
           expect(validationResult).toEqual({
             username: 'myoverriddenmessage',
+            recordErrors: {},
           });
           done();
         });
@@ -1558,6 +1582,7 @@ when adding one validator to a given nested field with kebap case
           expect(mockValidationFn).toHaveBeenCalled();
           expect(validationResult).toEqual({
             username: 'myoverriddenmessage',
+            recordErrors: {},
           });
           done();
         });
@@ -1601,6 +1626,7 @@ when adding one validator to a given nested field with kebap case
           expect(validationResult).toEqual({
             username:
               'whatever myoverriddenmessage custom-arg {"username":"whatever"}',
+            recordErrors: {},
           });
           done();
         });
@@ -1649,6 +1675,7 @@ when adding one validator to a given nested field with kebap case
           expect(mockValidationFn).toHaveBeenCalled();
           expect(validationResult).toEqual({
             username: 'received custom args fail true',
+            recordErrors: {},
           });
           done();
         });
@@ -1695,7 +1722,7 @@ when adding one validator to a given nested field with kebap case
       // Assert
       result.then(validationResult => {
         expect(mockValidationFn).toHaveBeenCalled();
-        expect(validationResult).toBeNull;
+        expect(validationResult).toBeNull();
         done();
       });
     });
@@ -1731,7 +1758,7 @@ when adding one validator to a given nested field with kebap case
       result.then(validationResult => {
         expect(mockValidationFn1).toHaveBeenCalled();
         expect(mockValidationFn2).toHaveBeenCalled();
-        expect(validationResult).toBe(null);
+        expect(validationResult).toBeNull();
         done();
       });
     });
@@ -1769,6 +1796,7 @@ when adding two validators to a given field and first fails
           expect(mockValidationFn2).not.toHaveBeenCalled();
           expect(validationResult).toEqual({
             username: 'mymessageA',
+            recordErrors: {},
           });
           done();
         });
@@ -1807,6 +1835,7 @@ when adding two validators to a given field and second fails
           expect(mockValidationFn2).toHaveBeenCalled();
           expect(validationResult).toEqual({
             username: 'mymessageB',
+            recordErrors: {},
           });
           done();
         });
@@ -1845,6 +1874,7 @@ when adding two validators to a given field fails and second fails
           expect(mockValidationFn2).not.toHaveBeenCalled();
           expect(validationResult).toEqual({
             username: 'mymessageA',
+            recordErrors: {},
           });
           done();
         });

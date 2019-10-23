@@ -1,9 +1,4 @@
-import {
-  ValidationSchema,
-  ValidationResult,
-  RecordValidationResult,
-  FormValidationResult,
-} from '@lemoncode/fonk';
+import { ValidationSchema } from '@lemoncode/fonk';
 
 /**
  * Main function to create an instance of FormikValidation. We could use `validateField`, `validateRecord` and/or `validateForm` to fire validations.
@@ -19,13 +14,9 @@ export function createFormikValidation(
 ): FormikValidation;
 
 interface FormikValidation {
-  validateField: (
-    fieldId: string,
-    value: any,
-    values?: any
-  ) => Promise<ValidationResult>;
+  validateField: (fieldId: string, value: any, values?: any) => Promise<any>;
 
-  validateRecord: (values: any) => Promise<RecordValidationResult>;
+  validateRecord: (values: any) => Promise<any>;
 
   validateForm: (values: any) => Promise<any>;
 }
