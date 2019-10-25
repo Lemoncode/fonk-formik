@@ -8,18 +8,22 @@ This package serves as the entry point to the Formik Form state management libra
 
 Check our [Fonk Documentation site](https://lemoncode.github.io/fonk-doc/) and [Formik](https://lemoncode.github.io/fonk-doc/formik) section.
 
-How to install:
+Adding **Fonk** to **Formik** allows you to seamlessly add validation capabilities to **Formik**.
+
+In order to use **Fonk** with **Formik** you will have to install **fonk-formik** adaptor:
 
 ```bash
-npm install @lemoncode/fonk-formik --save
+npm install @lemoncode/fonk @lemoncode/fonk-formik --save
 ```
 
-Replace _createFormValidation_ with _createFormikValidation_ e.g.
+The main change to apply when using a **fonk-formik** comes when you want to instantiate
+**Fonk** engine with your form validation schema, instead of calling _createFormValidation_
+, just replace that entry with _createFormikValidation_
 
 ```diff
-- import { Validators, createFormValidation } from "@lemoncode/fonk";
-+ import { Validators } from "@lemoncode/fonk";
-+ import { createFormikValidation } from "@lemoncode/fonk-formik";
+- import { createFormValidation, Validators } from '@lemoncode/fonk';
++ import { Validators } from '@lemoncode/fonk';
++ import { createFonkValidation } from '@lemoncode/fonk-formik';
 
 const validationSchema = {
   field: {
@@ -28,11 +32,11 @@ const validationSchema = {
   }
 };
 
-- export const formValidation = createFormikValidation(validationSchema);
+- export const formValidation = createFormValidation(validationSchema);
 + export const formValidation = createFormikValidation(validationSchema);
 ```
 
-Example: how to validate at form validation level (Formik >> validate)
+Now you can hook to Formik form validation (example):
 
 ```diff
     <Formik
@@ -47,26 +51,35 @@ Example: how to validate at form validation level (Formik >> validate)
     >
 ```
 
-Example: how to validate at field level validation
+And if you want to hook to Formik field validations (example):
 
 ```diff
-  <form onSubmit={handleSubmit}>
-    <Field 
-      name="email" 
-+      validate={(value) => formValidation.validateField("email", value)} />
-```
-
-Example: How to display field validation error message:
-
-```diff
-    <Field name="email" validate={validateField("email")} />
+    <Field name="email"/>
 +    {errors &&
 +      errors.email &&
-+      errors.email.message &&
-+       touched.email && 
-+       <div>{errors.email.message}</div>}
++       touched.email &&
++       <div>{errors.email}</div>}
 ```
 
+# Examples:
+
+[Basic example](https://codesandbox.io/s/github/lemoncode/fonk/tree/master/examples/formik/js/basic)
+
+[Using formik Field](https://codesandbox.io/s/github/lemoncode/fonk/tree/master/examples/react-final-form/js/formik-component)
+
+[Firing validatins at field level](https://codesandbox.io/s/github/lemoncode/fonk/tree/master/examples/formik/js/field-level-validation)
+
+[Asynchronous validation](https://codesandbox.io/s/github/lemoncode/fonk/tree/master/examples/formik/js/async-validator)
+
+[Customizing validator's error messages globaly](https://codesandbox.io/s/github/lemoncode/fonk/tree/master/examples/formik/js/custom-error-message-global)
+
+[Customizing validator's error messages just for a given form](https://codesandbox.io/s/github/lemoncode/fonk/tree/master/examples/formik/js/custom-error-message-local)
+
+[Creating custom validators](https://codesandbox.io/s/github/lemoncode/fonk/tree/master/examples/formik/js/custom-validators)
+
+[Validating nested fields](https://codesandbox.io/s/github/lemoncode/fonk/tree/master/examples/formik/js/nested-field)
+
+[Defining record validations](https://codesandbox.io/s/github/lemoncode/fonk/tree/master/examples/formik/js/record-validation)
 
 # About Basefactor + Lemoncode
 
