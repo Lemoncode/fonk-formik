@@ -65,7 +65,7 @@ And if you want to hook to Formik field validations (example):
 
 [Basic example](https://codesandbox.io/s/github/lemoncode/fonk/tree/master/examples/formik/js/basic)
 
-[Using formik Field](https://codesandbox.io/s/github/lemoncode/fonk/tree/master/examples/react-final-form/js/formik-component)
+[Using formik Field](https://codesandbox.io/s/github/lemoncode/fonk/tree/master/examples/formik/js/formik-component)
 
 [Firing validatins at field level](https://codesandbox.io/s/github/lemoncode/fonk/tree/master/examples/formik/js/field-level-validation)
 
