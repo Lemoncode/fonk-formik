@@ -13,19 +13,17 @@ Adding **Fonk** to **Formik** allows you to seamlessly add validation capabiliti
 In order to use **Fonk** with **Formik** you will have to install **fonk-formik** adaptor:
 
 ```bash
-npm install @lemoncode/fonk @lemoncode/fonk-formik--save
+npm install @lemoncode/fonk @lemoncode/fonk-formik --save
 ```
 
 The main change to apply when using a **fonk-formik** comes when you want to instantiate
-**Fonk** engine with your form validatin schema, instead of calling _createFormValidation_
-, just replace that entry with _createFonkValidation_
+**Fonk** engine with your form validation schema, instead of calling _createFormValidation_
+, just replace that entry with _createFormikValidation_
 
 ```diff
 - import { createFormValidation, Validators } from '@lemoncode/fonk';
 + import { Validators } from '@lemoncode/fonk';
 + import { createFonkValidation } from '@lemoncode/fonk-formik';
-import { isNumber } from '@lemoncode/fonk-is-number-validator';
-import { minNumberValidator } from './custom-validators';
 
 const validationSchema = {
   field: {
@@ -35,7 +33,7 @@ const validationSchema = {
 };
 
 - export const formValidation = createFormValidation(validationSchema);
-+ export const formValidation = createFonkValidation(validationSchema);
++ export const formValidation = createFormikValidation(validationSchema);
 ```
 
 Now you can hook to Formik form validation (example):
@@ -56,7 +54,7 @@ Now you can hook to Formik form validation (example):
 And if you want to hook to Formik field validations (example):
 
 ```diff
-    <Field name="email" validate={validateField("email")} />
+    <Field name="email"/>
 +    {errors &&
 +      errors.email &&
 +       touched.email &&
