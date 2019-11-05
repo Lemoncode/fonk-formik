@@ -2,12 +2,13 @@ import {
   FormValidationExtended,
   ValidationResult,
   ValidationSchema,
-  FormValidationResult,
   createFormValidation,
 } from '@lemoncode/fonk';
 
 /*
-Formik expects a validation to be thrown if there are errors
+Formik expects a validator to return null or undefined
+  when  a given validation succeeds, adaptor to fulfill this
+  requirement.
  */
 export class FormikValidation {
   formValidation: FormValidationExtended.FormValidation = null;
@@ -31,41 +32,43 @@ export class FormikValidation {
     fieldId: string,
     value: any,
     values?: any
-  ): Promise<any> {
+  ): Promise<string> {
     return this.formValidation
       .validateField(fieldId, value, values)
-      .then(result => {
-        if (!result.succeeded) {
-          throw result.message;
-        }
-
-        return null;
-      });
+      .then(validationResult =>
+        !validationResult.succeeded ? validationResult.message : null
+      );
   }
 
-  public validateRecord(values: any): Promise<any> {
-    return this.formValidation.validateRecord(values).then(result => {
-      if (!result.succeeded) {
-        throw {
-          recordErrors: { ...this.flatErrorsToMessages(result.recordErrors) },
-        };
-      }
-
-      return null;
-    });
+  public validateRecord(
+    values: any
+  ): Promise<{ recordErrors: Record<string, string> }> {
+    return this.formValidation.validateRecord(values).then(validationResult =>
+      !validationResult.succeeded
+        ? {
+            recordErrors: {
+              ...this.flatErrorsToMessages(validationResult.recordErrors),
+            },
+          }
+        : null
+    );
   }
 
-  public validateForm(values: any): Promise<any> {
-    return this.formValidation.validateForm(values).then(result => {
-      if (!result.succeeded) {
-        throw {
-          ...this.flatErrorsToMessages(result.fieldErrors),
-          recordErrors: { ...this.flatErrorsToMessages(result.recordErrors) },
-        };
-      }
-
-      return null;
-    });
+  public validateForm(
+    values: any
+  ): Promise<
+    Record<string, string> | { recordErrors: Record<string, string> }
+  > {
+    return this.formValidation.validateForm(values).then(validationResult =>
+      !validationResult.succeeded
+        ? {
+            ...this.flatErrorsToMessages(validationResult.fieldErrors),
+            recordErrors: this.flatErrorsToMessages(
+              validationResult.recordErrors
+            ),
+          }
+        : null
+    );
   }
 }
 
