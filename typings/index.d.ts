@@ -14,9 +14,15 @@ export function createFormikValidation(
 ): FormikValidation;
 
 interface FormikValidation {
-  validateField: (fieldId: string, value: any, values?: any) => Promise<any>;
+  validateField: (fieldId: string, value: any, values?: any) => Promise<string>;
 
-  validateRecord: (values: any) => Promise<any>;
+  validateRecord: (
+    values: any
+  ) => Promise<{ recordErrors: Record<string, string> }>;
 
-  validateForm: (values: any) => Promise<any>;
+  validateForm: (
+    values: any
+  ) => Promise<
+    Record<string, string> | { recordErrors: Record<string, string> }
+  >;
 }
