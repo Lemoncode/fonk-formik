@@ -51,20 +51,19 @@ Example: how to validate at field level validation
 
 ```diff
   <form onSubmit={handleSubmit}>
-    <Field 
-      name="email" 
+    <Field
+      name="email"
 +      validate={(value) => formValidation.validateField("email", value)} />
 ```
 
 Example: How to display field validation error message:
 
 ```diff
-    <Field name="email" validate={validateField("email")} />
+    <Field name="email" validate={(value) => formValidation.validateField("email", value)} />
 +    {errors &&
 +      errors.email &&
-+      errors.email.message &&
-+       touched.email && 
-+       <div>{errors.email.message}</div>}
++       touched.email &&
++       <div>{errors.email}</div>}
 ```
 
 
