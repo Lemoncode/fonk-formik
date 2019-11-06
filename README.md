@@ -54,6 +54,15 @@ Now you can hook to Formik form validation (example):
 And if you want to hook to Formik field validations (example):
 
 ```diff
+  <form onSubmit={handleSubmit}>
+    <Field
+      name="email"
++      validate={(value) => formValidation.validateField("email", value)} />
+```
+
+Example: How to display field validation error message:
+
+```diff
     <Field name="email"/>
 +    {errors &&
 +      errors.email &&

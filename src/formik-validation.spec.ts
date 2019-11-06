@@ -43,7 +43,7 @@ describe('FormValidation', () => {
       const formValidation = createFormikValidation(validationSchema);
       formValidation
         .validateField('username', 'whatever')
-        .catch(validationResult => {
+        .then(validationResult => {
           expect(validationResult).toBe('mymessage');
           expect(mockValidationFn).toHaveBeenCalled();
           done();
@@ -71,7 +71,7 @@ describe('FormValidation', () => {
       const formValidation = createFormikValidation(validationSchema);
       formValidation
         .validateField('username', 'whatever')
-        .catch(validationResult => {
+        .then(validationResult => {
           // Assert
           expect(validationResult).toBe('mymessage');
           expect(mockValidationFn).toHaveBeenCalled();
@@ -107,7 +107,7 @@ describe('FormValidation', () => {
       const formValidation = createFormikValidation(validationSchema);
       const result = formValidation
         .validateField('username', 'whatever')
-        .catch(validationResult => {
+        .then(validationResult => {
           // Assert
           expect(validationResult).toBe('myoverriddenmessage');
           expect(mockValidationFn).toHaveBeenCalled();
@@ -144,7 +144,7 @@ describe('FormValidation', () => {
       const formValidation = createFormikValidation(validationSchema);
       const result = formValidation
         .validateField('username', 'whatever')
-        .catch(validationResult => {
+        .then(validationResult => {
           // Assert
           expect(validationResult).toBe('myoverriddenmessage');
           expect(mockValidationFn).toHaveBeenCalled();
@@ -181,7 +181,7 @@ describe('FormValidation', () => {
       const formValidation = createFormikValidation(validationSchema);
       const result = formValidation
         .validateField('username', 'whatever', 'test-values')
-        .catch(validationResult => {
+        .then(validationResult => {
           // Assert
           expect(validationResult).toBe(
             'whatever myoverriddenmessage custom-arg test-values'
@@ -228,7 +228,7 @@ describe('FormValidation', () => {
       const formValidation = createFormikValidation(validationSchema);
       const result = formValidation
         .validateField('username', 'whatever')
-        .catch(validationResult => {
+        .then(validationResult => {
           // Assert
           expect(validationResult).toBe('received custom args fail true');
           expect(validator).toHaveBeenCalled();
@@ -339,7 +339,7 @@ when adding two validators to a given field and first fails
       const formValidation = createFormikValidation(validationSchema);
       const result = formValidation
         .validateField('username', 'whatever')
-        .catch(validationResult => {
+        .then(validationResult => {
           // Assert
           expect(validationResult).toBe('mymessageA');
           expect(mockValidationFn1).toHaveBeenCalled();
@@ -374,7 +374,7 @@ when adding two validators to a given field and second fails
       const formValidation = createFormikValidation(validationSchema);
       const result = formValidation
         .validateField('username', 'whatever')
-        .catch(validationResult => {
+        .then(validationResult => {
           // Assert
           expect(validationResult).toBe('mymessageB');
           expect(mockValidationFn1).toHaveBeenCalled();
@@ -409,7 +409,7 @@ when adding two validators to a given field fails and second fails
       const formValidation = createFormikValidation(validationSchema);
       const result = formValidation
         .validateField('username', 'whatever')
-        .catch(validationResult => {
+        .then(validationResult => {
           // Assert
           expect(validationResult).toBe('mymessageA');
           expect(mockValidationFn1).toHaveBeenCalled();
@@ -438,7 +438,7 @@ when adding one validator to a given nested field
       const formValidation = createFormikValidation(validationSchema);
       const result = formValidation
         .validateField('nested.field', 'whatever')
-        .catch(validationResult => {
+        .then(validationResult => {
           // Assert
           expect(validationResult).toBe('mymessageA');
           expect(mockValidationFn).toHaveBeenCalled();
@@ -466,7 +466,7 @@ when adding one validator to a given nested field with kebap case
       const formValidation = createFormikValidation(validationSchema);
       const result = formValidation
         .validateField('this-is-a-nested.field', 'whatever')
-        .catch(validationResult => {
+        .then(validationResult => {
           // Assert
           expect(validationResult).toBe('mymessageA');
           expect(mockValidationFn).toHaveBeenCalled();
@@ -500,7 +500,7 @@ when adding one validator to a given nested field with kebap case
       const formValidation = createFormikValidation(validationSchema);
       const result = formValidation
         .validateRecord(values)
-        .catch(validationResult => {
+        .then(validationResult => {
           // Assert
           expect(mockValidationFn).toHaveBeenCalled();
           expect(validationResult).toEqual({
@@ -536,7 +536,7 @@ when adding one validator to a given nested field with kebap case
       const formValidation = createFormikValidation(validationSchema);
       const result = formValidation
         .validateRecord(values)
-        .catch(validationResult => {
+        .then(validationResult => {
           // Assert
           expect(mockValidationFn).toHaveBeenCalled();
           expect(validationResult).toEqual({
@@ -575,7 +575,7 @@ when adding one validator to a given nested field with kebap case
       const formValidation = createFormikValidation(validationSchema);
       const result = formValidation
         .validateRecord(values)
-        .catch(validationResult => {
+        .then(validationResult => {
           // Assert
           expect(validationFn).toHaveBeenCalled();
           expect(validationResult).toEqual({
@@ -613,7 +613,7 @@ when adding one validator to a given nested field with kebap case
       const formValidation = createFormikValidation(validationSchema);
       const result = formValidation
         .validateRecord(values)
-        .catch(validationResult => {
+        .then(validationResult => {
           // Assert
           expect(validationFn).toHaveBeenCalled();
           expect(validationResult).toEqual({
@@ -657,7 +657,7 @@ when adding one validator to a given nested field with kebap case
       const formValidation = createFormikValidation(validationSchema);
       const result = formValidation
         .validateRecord(values)
-        .catch(validationResult => {
+        .then(validationResult => {
           // Assert
           expect(validationFn1).toHaveBeenCalled();
           expect(validationFn2).not.toHaveBeenCalled();
@@ -702,7 +702,7 @@ when adding one validator to a given nested field with kebap case
       const formValidation = createFormikValidation(validationSchema);
       const result = formValidation
         .validateRecord(values)
-        .catch(validationResult => {
+        .then(validationResult => {
           // Assert
           expect(validationFn1).toHaveBeenCalled();
           expect(validationFn2).toHaveBeenCalled();
@@ -747,7 +747,7 @@ when adding one validator to a given nested field with kebap case
       const formValidation = createFormikValidation(validationSchema);
       const result = formValidation
         .validateRecord(values)
-        .catch(validationResult => {
+        .then(validationResult => {
           // Assert
           expect(validationFn1).toHaveBeenCalled();
           expect(validationFn2).not.toHaveBeenCalled();
@@ -834,7 +834,7 @@ when adding one validator to a given nested field with kebap case
       const formValidation = createFormikValidation(validationSchema);
       const result = formValidation
         .validateRecord(values)
-        .catch(validationResult => {
+        .then(validationResult => {
           // Assert
           expect(validationFn1).toHaveBeenCalled();
           expect(validationFn2).toHaveBeenCalled();
@@ -874,7 +874,7 @@ when adding one validator to a given nested field with kebap case
       const formValidation = createFormikValidation(validationSchema);
       const result = formValidation
         .validateForm(values)
-        .catch(validationResult => {
+        .then(validationResult => {
           // Assert
           expect(mockValidationFn).toHaveBeenCalled();
           expect(validationResult).toEqual({
@@ -910,7 +910,7 @@ when adding one validator to a given nested field with kebap case
       const formValidation = createFormikValidation(validationSchema);
       const result = formValidation
         .validateForm(values)
-        .catch(validationResult => {
+        .then(validationResult => {
           // Assert
           expect(mockValidationFn).toHaveBeenCalled();
           expect(validationResult).toEqual({
@@ -949,7 +949,7 @@ when adding one validator to a given nested field with kebap case
       const formValidation = createFormikValidation(validationSchema);
       const result = formValidation
         .validateForm(values)
-        .catch(validationResult => {
+        .then(validationResult => {
           // Assert
           expect(validationFn).toHaveBeenCalled();
           expect(validationResult).toEqual({
@@ -987,7 +987,7 @@ when adding one validator to a given nested field with kebap case
       const formValidation = createFormikValidation(validationSchema);
       const result = formValidation
         .validateForm(values)
-        .catch(validationResult => {
+        .then(validationResult => {
           // Assert
           expect(validationFn).toHaveBeenCalled();
           expect(validationResult).toEqual({
@@ -1031,7 +1031,7 @@ when adding one validator to a given nested field with kebap case
       const formValidation = createFormikValidation(validationSchema);
       const result = formValidation
         .validateForm(values)
-        .catch(validationResult => {
+        .then(validationResult => {
           // Assert
           expect(validationFn1).toHaveBeenCalled();
           expect(validationFn2).not.toHaveBeenCalled();
@@ -1076,7 +1076,7 @@ when adding one validator to a given nested field with kebap case
       const formValidation = createFormikValidation(validationSchema);
       const result = formValidation
         .validateForm(values)
-        .catch(validationResult => {
+        .then(validationResult => {
           // Assert
           expect(validationFn1).toHaveBeenCalled();
           expect(validationFn2).toHaveBeenCalled();
@@ -1121,7 +1121,7 @@ when adding one validator to a given nested field with kebap case
       const formValidation = createFormikValidation(validationSchema);
       const result = formValidation
         .validateForm(values)
-        .catch(validationResult => {
+        .then(validationResult => {
           // Assert
           expect(validationFn1).toHaveBeenCalled();
           expect(validationFn2).not.toHaveBeenCalled();
@@ -1208,7 +1208,7 @@ when adding one validator to a given nested field with kebap case
       const formValidation = createFormikValidation(validationSchema);
       const result = formValidation
         .validateForm(values)
-        .catch(validationResult => {
+        .then(validationResult => {
           // Assert
           expect(validationFn1).toHaveBeenCalled();
           expect(validationFn2).toHaveBeenCalled();
@@ -1258,7 +1258,7 @@ when adding one validator to a given nested field with kebap case
       const formValidation = createFormikValidation(validationSchema);
       const result = formValidation
         .validateForm(values)
-        .catch(validationResult => {
+        .then(validationResult => {
           // Assert
           expect(myFieldValidation).toHaveBeenCalled();
           expect(myRecordValidation).toHaveBeenCalled();
@@ -1307,7 +1307,7 @@ when adding one validator to a given nested field with kebap case
       const formValidation = createFormikValidation(validationSchema);
       const result = formValidation
         .validateForm(values)
-        .catch(validationResult => {
+        .then(validationResult => {
           // Assert
           expect(myFieldValidation).toHaveBeenCalled();
           expect(myRecordValidation).toHaveBeenCalled();
@@ -1357,7 +1357,7 @@ when adding one validator to a given nested field with kebap case
       const formValidation = createFormikValidation(validationSchema);
       const result = formValidation
         .validateForm(values)
-        .catch(validationResult => {
+        .then(validationResult => {
           // Assert
           expect(myFieldValidation).toHaveBeenCalled();
           expect(myRecordValidation).toHaveBeenCalled();
@@ -1479,7 +1479,7 @@ when adding one validator to a given nested field with kebap case
       const values = {};
       const result = formValidation
         .validateForm(values)
-        .catch(validationResult => {
+        .then(validationResult => {
           // Assert
           expect(mockValidationFn).toHaveBeenCalled();
           expect(validationResult).toEqual({
@@ -1512,7 +1512,7 @@ when adding one validator to a given nested field with kebap case
       const values = {};
       const result = formValidation
         .validateForm(values)
-        .catch(validationResult => {
+        .then(validationResult => {
           // Assert
           expect(mockValidationFn).toHaveBeenCalled();
           expect(validationResult).toEqual({
@@ -1552,7 +1552,7 @@ when adding one validator to a given nested field with kebap case
       const values = {};
       const result = formValidation
         .validateForm(values)
-        .catch(validationResult => {
+        .then(validationResult => {
           // Assert
           expect(mockValidationFn).toHaveBeenCalled();
           expect(validationResult).toEqual({
@@ -1593,7 +1593,7 @@ when adding one validator to a given nested field with kebap case
       const values = {};
       const result = formValidation
         .validateForm(values)
-        .catch(validationResult => {
+        .then(validationResult => {
           // Assert
           expect(mockValidationFn).toHaveBeenCalled();
           expect(validationResult).toEqual({
@@ -1636,7 +1636,7 @@ when adding one validator to a given nested field with kebap case
       const values = { username: 'whatever' };
       const result = formValidation
         .validateForm(values)
-        .catch(validationResult => {
+        .then(validationResult => {
           // Assert
           expect(mockValidationFn).toHaveBeenCalled();
           expect(validationResult).toEqual({
@@ -1686,7 +1686,7 @@ when adding one validator to a given nested field with kebap case
       const values = {};
       const result = formValidation
         .validateForm(values)
-        .catch(validationResult => {
+        .then(validationResult => {
           // Assert
           expect(mockValidationFn).toHaveBeenCalled();
           expect(validationResult).toEqual({
@@ -1806,7 +1806,7 @@ when adding two validators to a given field and first fails
       const values = {};
       const result = formValidation
         .validateForm(values)
-        .catch(validationResult => {
+        .then(validationResult => {
           // Assert
           expect(mockValidationFn1).toHaveBeenCalled();
           expect(mockValidationFn2).not.toHaveBeenCalled();
@@ -1845,7 +1845,7 @@ when adding two validators to a given field and second fails
       const values = {};
       const result = formValidation
         .validateForm(values)
-        .catch(validationResult => {
+        .then(validationResult => {
           // Assert
           expect(mockValidationFn1).toHaveBeenCalled();
           expect(mockValidationFn2).toHaveBeenCalled();
@@ -1884,7 +1884,7 @@ when adding two validators to a given field fails and second fails
       const values = {};
       const result = formValidation
         .validateForm(values)
-        .catch(validationResult => {
+        .then(validationResult => {
           // Assert
           expect(mockValidationFn1).toHaveBeenCalled();
           expect(mockValidationFn2).not.toHaveBeenCalled();
