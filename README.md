@@ -23,7 +23,7 @@ The main change to apply when using a **fonk-formik** comes when you want to ins
 ```diff
 - import { createFormValidation, Validators } from '@lemoncode/fonk';
 + import { Validators } from '@lemoncode/fonk';
-+ import { createFonkValidation } from '@lemoncode/fonk-formik';
++ import { createFormikValidation } from '@lemoncode/fonk-formik';
 
 const validationSchema = {
   field: {
@@ -41,7 +41,7 @@ Now you can hook to Formik form validation (example):
 ```diff
     <Formik
       initialValues={{ email: "", password: "" }}
-+       validate={formValidation.validateForm}
++     validate={formValidation.validateForm}
       onSubmit={(values, { setSubmitting }) => {
         setTimeout(() => {
           alert(JSON.stringify(values, null, 2));
@@ -57,7 +57,7 @@ And if you want to hook to Formik field validations (example):
   <form onSubmit={handleSubmit}>
     <Field
       name="email"
-+      validate={(value) => formValidation.validateField("email", value)} />
++     validate={(value) => formValidation.validateField("email", value)} />
 ```
 
 Example: How to display field validation error message:
