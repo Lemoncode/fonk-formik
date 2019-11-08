@@ -2,6 +2,7 @@ import { ValidationSchema } from '@lemoncode/fonk';
 
 /**
  * Main function to create an instance of FormikValidation. We could use `validateField`, `validateRecord` and/or `validateForm` to fire validations.
+ * `updateValidationSchema`: to update validation schema after create form validation instance.
  *
  * **Arguments**
  * - ValidationSchema
@@ -25,4 +26,6 @@ interface FormikValidation {
   ) => Promise<
     Record<string, string> | { recordErrors: Record<string, string> }
   >;
+
+  updateValidationSchema(validationSchema: ValidationSchema): void;
 }

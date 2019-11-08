@@ -1,5 +1,5 @@
 import {
-  FormValidationExtended,
+  FormValidation,
   ValidationResult,
   ValidationSchema,
   createFormValidation,
@@ -11,7 +11,7 @@ Formik expects a validator to return null or undefined
   requirement.
  */
 export class FormikValidation {
-  formValidation: FormValidationExtended.FormValidation = null;
+  formValidation: FormValidation = null;
 
   constructor(validationSchema: ValidationSchema) {
     this.formValidation = createFormValidation(validationSchema);
@@ -69,6 +69,10 @@ export class FormikValidation {
           }
         : null
     );
+  }
+
+  public updateValidationSchema(validationSchema: ValidationSchema): void {
+    this.formValidation.updateValidationSchema(validationSchema);
   }
 }
 
