@@ -1312,7 +1312,6 @@ when adding one validator to a given nested field with kebap case
           expect(myFieldValidation).toHaveBeenCalled();
           expect(myRecordValidation).toHaveBeenCalled();
           expect(validationResult).toEqual({
-            username: '',
             recordErrors: {
               MY_RECORD_VALIDATION: 'mymessageB',
             },
@@ -1363,9 +1362,6 @@ when adding one validator to a given nested field with kebap case
           expect(myRecordValidation).toHaveBeenCalled();
           expect(validationResult).toEqual({
             username: 'mymessageA',
-            recordErrors: {
-              MY_RECORD_VALIDATION: '',
-            },
           });
           done();
         });
@@ -1498,7 +1494,6 @@ when adding one validator to a given nested field with kebap case
         expect(myFieldValidation2).toHaveBeenCalled();
         expect(validationResult).toEqual({
           nested: {
-            field1: '',
             field2: 'mymessageB',
           },
         });

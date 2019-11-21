@@ -27,8 +27,10 @@ export class FormikValidation {
 
     for (const key of Object.keys(errors)) {
       const errorMessage =
-        errors[key] && !errors[key].succeeded ? errors[key].message : '';
-      set(formikErrors, key, errorMessage);
+        errors[key] && !errors[key].succeeded ? errors[key].message : null;
+      if (errorMessage) {
+        set(formikErrors, key, errorMessage);
+      }
     }
 
     return formikErrors;
@@ -62,11 +64,19 @@ export class FormikValidation {
     );
   }
 
+  private anyRecordValidationResultFailed = (recordErrors: {
+    [recordId: string]: ValidationResult;
+  }) =>
+    Object.keys(recordErrors).some(
+      key => recordErrors[key].succeeded === false
+    );
+
   private validationResultContainsRecordErrors = (
     validationResult: FormValidationResult
   ) =>
     validationResult.recordErrors &&
-    Object.keys(validationResult.recordErrors).length > 0;
+    Object.keys(validationResult.recordErrors).length > 0 &&
+    this.anyRecordValidationResultFailed(validationResult.recordErrors);
 
   private buildFormikErrors = (validationResult: FormValidationResult) => {
     let formikErrors = {};
