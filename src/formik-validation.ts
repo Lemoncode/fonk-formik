@@ -96,37 +96,14 @@ export class FormikValidation {
   ): Promise<
     Record<string, string> | { recordErrors: Record<string, string> }
   > {
-    return this.formValidation.validateForm(values).then(validationResult =>
-      !validationResult.succeeded
-        ? this.buildFormikErrors(validationResult)
-        : /*{
-            ...this.flatErrorsToMessages(validationResult.fieldErrors),
-            recordErrors: this.flatErrorsToMessages(
-              validationResult.recordErrors
-            ),
-          }*/
-          null
-    );
+    return this.formValidation
+      .validateForm(values)
+      .then(validationResult =>
+        !validationResult.succeeded
+          ? this.buildFormikErrors(validationResult)
+          : null
+      );
   }
-
-  /*
-  public validateForm(
-    values: any
-  ): Promise<
-    Record<string, string> | { recordErrors: Record<string, string> }
-  > {
-    return this.formValidation.validateForm(values).then(validationResult =>
-      !validationResult.succeeded
-        ? {
-            ...this.flatErrorsToMessages(validationResult.fieldErrors),
-            recordErrors: this.flatErrorsToMessages(
-              validationResult.recordErrors
-            ),
-          }
-        : null
-    );
-  }
-*/
 
   public updateValidationSchema(validationSchema: ValidationSchema): void {
     this.formValidation.updateValidationSchema(validationSchema);
