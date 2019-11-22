@@ -1,8 +1,11 @@
+import { set } from './helpers';
+
 import {
   FormValidation,
   ValidationResult,
   ValidationSchema,
   createFormValidation,
+  FormValidationResult,
 } from '@lemoncode/fonk';
 
 /*
@@ -17,16 +20,21 @@ export class FormikValidation {
     this.formValidation = createFormValidation(validationSchema);
   }
 
-  private flatErrorsToMessages = (errors: {
+  private mapErrorsToFormikErrorMessageStructure = (errors: {
     [fieldId: string]: ValidationResult;
-  }): Record<string, string> =>
-    Object.keys(errors).reduce(
-      (dest, key) => ({
-        ...dest,
-        [key]: errors[key] && !errors[key].succeeded ? errors[key].message : '',
-      }),
-      {}
-    );
+  }): Record<string, string> => {
+    const formikErrors = {};
+
+    for (const key of Object.keys(errors)) {
+      const errorMessage =
+        errors[key] && !errors[key].succeeded ? errors[key].message : null;
+      if (errorMessage) {
+        set(formikErrors, key, errorMessage);
+      }
+    }
+
+    return formikErrors;
+  };
 
   public validateField(
     fieldId: string,
@@ -47,28 +55,61 @@ export class FormikValidation {
       !validationResult.succeeded
         ? {
             recordErrors: {
-              ...this.flatErrorsToMessages(validationResult.recordErrors),
+              ...this.mapErrorsToFormikErrorMessageStructure(
+                validationResult.recordErrors
+              ),
             },
           }
         : null
     );
   }
 
+  private anyRecordValidationResultFailed = (recordErrors: {
+    [recordId: string]: ValidationResult;
+  }) => Object.keys(recordErrors).some(key => !recordErrors[key].succeeded);
+
+  private validationResultContainsRecordErrors = (
+    validationResult: FormValidationResult
+  ) =>
+    validationResult.recordErrors &&
+    Object.keys(validationResult.recordErrors).length > 0 &&
+    this.anyRecordValidationResultFailed(validationResult.recordErrors);
+
+  private buildFormikErrors = (validationResult: FormValidationResult) => {
+    let formikErrors = {};
+
+    // Build field errors:
+    formikErrors = {
+      ...this.mapErrorsToFormikErrorMessageStructure(
+        validationResult.fieldErrors
+      ),
+    };
+
+    // Build Record errors
+    if (this.validationResultContainsRecordErrors(validationResult)) {
+      formikErrors = {
+        ...formikErrors,
+        recordErrors: this.mapErrorsToFormikErrorMessageStructure(
+          validationResult.recordErrors
+        ),
+      };
+    }
+
+    return formikErrors;
+  };
+
   public validateForm(
     values: any
   ): Promise<
     Record<string, string> | { recordErrors: Record<string, string> }
   > {
-    return this.formValidation.validateForm(values).then(validationResult =>
-      !validationResult.succeeded
-        ? {
-            ...this.flatErrorsToMessages(validationResult.fieldErrors),
-            recordErrors: this.flatErrorsToMessages(
-              validationResult.recordErrors
-            ),
-          }
-        : null
-    );
+    return this.formValidation
+      .validateForm(values)
+      .then(validationResult =>
+        !validationResult.succeeded
+          ? this.buildFormikErrors(validationResult)
+          : null
+      );
   }
 
   public updateValidationSchema(validationSchema: ValidationSchema): void {
