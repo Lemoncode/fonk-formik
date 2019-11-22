@@ -66,10 +66,7 @@ export class FormikValidation {
 
   private anyRecordValidationResultFailed = (recordErrors: {
     [recordId: string]: ValidationResult;
-  }) =>
-    Object.keys(recordErrors).some(
-      key => recordErrors[key].succeeded === false
-    );
+  }) => Object.keys(recordErrors).some(key => !recordErrors[key].succeeded);
 
   private validationResultContainsRecordErrors = (
     validationResult: FormValidationResult
