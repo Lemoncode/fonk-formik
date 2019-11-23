@@ -41,7 +41,7 @@ Now you can hook to Formik form validation (example):
 ```diff
     <Formik
       initialValues={{ email: "", password: "" }}
-+     validate={formValidation.validateForm}
++     validate={values => formValidation.validateForm(values)}
       onSubmit={(values, { setSubmitting }) => {
         setTimeout(() => {
           alert(JSON.stringify(values, null, 2));
