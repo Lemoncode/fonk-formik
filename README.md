@@ -6,6 +6,8 @@
 
 This package serves as the entry point to the Formik Form state management library ([Live example](https://codesandbox.io/s/github/lemoncode/fonk/tree/master/examples/formik/js/basic)). It is intended to be paired with the generic Fonk package, which is shipped as to npm.
 
+Start by reading this [post (Formik + Fonk)](https://www.basefactor.com/formik-form-validation-fonk)
+
 Check our [Fonk Documentation site](https://lemoncode.github.io/fonk-doc/) and [Formik](https://lemoncode.github.io/fonk-doc/formik) section.
 
 Adding **Fonk** to **Formik** allows you to seamlessly add validation capabilities to **Formik**.
